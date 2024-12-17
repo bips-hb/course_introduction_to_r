@@ -1,10 +1,10 @@
 # course_introduction_to_r
 
-Introductory R course in collaboration with RKI.
+Introduction to data management and data analysis with R and RStudio.
 
 ## Outline
 
-The course is grouped into potentiall overlapping sections which do not necessarily need to correspond to workshop days.  
+The course is grouped into potentially overlapping sections which do not necessarily need to correspond to workshop days.  
 The sections are:
 
 1. Getting started
@@ -25,5 +25,9 @@ The sections are:
 
 
 ## Prerequisites
+
+Ideally R and RStudio are already installed at the start of the course. See [these instructions](https://lukasburk.de/posts/install-r/) for example.
+
+If a local setup is not feasible, consider using an online service such as [Posit Cloud](https://posit.cloud/).
 
 ## How to use this repository
