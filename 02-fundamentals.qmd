@@ -1,0 +1,211 @@
+---
+title: "R Fundamentals"
+format: html
+editor: source
+editor_options: 
+  chunk_output_type: console
+---
+
+## Hello There!
+
+This is a Quarto document. It contains regular text, code, and output when viewed in RStudio. It can also be converted into an HTML (or PDF) document, where code and output are shown together as well.
+
+This text is formatted using *Markdown*, a lightweight syntax that uses asterisks (`*`), underscores (`_`), hyphens (`-`), and parentheses / brackets (`()` and `[]`) to format text. We can also embed images:
+
+![rstudio-overview](img/rstudio-example.png)
+
+We can also write R code in a code block and execute it using either Ctrl + R like in a regular script or using the green button on the top right of the cell:
+
+```{r example-chunk}
+# Hello
+10 * 5.3
+-5 + 10
+9^2
+2 + 5 / 4
+(2 + 5) / 4
+```
+
+Throughout the workshop, we will use this format to interweave text and explanations with code examples. 
+You can modify the code in the blocks and rerun them to see the results, and later we will provide partial code examples where your task will be to complete them to solve a given task.
+
+## R Fundamentals
+
+Before we try to do any data analysis, we first need to familiarize ourselves with R to know our way around!
+
+In the example script `00-hello.R` we have already seen that R can be used like a big calculator, and that's already pretty useful. For now, we'll build on that a little.
+
+### Variables and Vectors
+
+We have seen how to assign values to a variable, such as `age <- 30`. This allows us to re-use data and give it a meaningful(!) name in our work. 
+It becomes more useful when we store not just individual number (*scalars*), but *vectors* of data.
+
+For example, say we have a small group of patients want to store their basic data, starting with their age:
+
+```{r age-example}
+age <- c(30, 33, 31, 29, 40)
+
+age
+```
+
+Now `age` is a *vector*, and in R this is the most common type of data structure we deal with. 
+Note that in R, even single numbers like `5` are treated like vectors (of length 1)!
+
+We can use vectors almost exactly like single numbers for basic math:
+
+```{r}
+age + 5
+age - 10
+age * 4
+age / 5
+age^2
+```
+
+What R here is doing is a form of **vectorization**, by using each element of the vector for the calculation and returning another vector.
+
+We can also conveniently create sequences of numbers using the colon notation `:`
+
+```{r}
+# 1 through 10
+1:10
+# -5 through 5
+-5:5
+```
+
+If we add vectors of the same length, R will add each element separately:
+
+```{r}
+# Same length: ok
+age + 1:5
+
+# not same length: not ok
+age + 1:7
+```
+
+But what happens here?
+
+```{r}
+age + 1:10
+```
+
+This is called **recycling** and can be great _or_ introduce unexpected behavior if it happenes by accident!
+
+Let's assume add more patient data:
+
+```{r patient-data}
+height_cm <- c(184, 174, 171, 179, 180)
+weight_kg <- c(75, 64, 70, 85, 78)
+```
+
+
+**Your turn**: 
+
+Using the variables above, calculate the BMI for each patient.
+Store the reuslt in a variable called `bmi`.
+Keep in mind you can use parentheses to group caluclations like in a calculator, e.g. `(x + 4) * y`
+
+```{r bmi-vector-calc}
+
+```
+
+### Functions
+
+On vectors, we can use additional functions common in statistics and data analysis:
+
+```{r centrality}
+mean(age)
+median(age)
+```
+
+```{r variability}
+# variance
+var(height_cm)
+# standard deviation (root of variance)
+sd(height_cm)
+# inter-quartile range
+IQR(height_cm)
+# minimum and maximum
+range(height_cm)
+```
+
+```{r summary}
+# Number of elements (length) of the vector
+length(height_cm)
+# Sum of all elements
+sum(height_cm)
+# Handy "common statistics" summary
+summary(height_cm)
+```
+
+Functions can take _arguments_ which specify further options. 
+Example: To calculate the quartiles of a vector without `summary()`, we take the function `quantile()` to calculate the 25%, 50%, and 75% quartiles:
+
+```{r}
+# quartiles
+quantile(height_cm, probs = c(0.25, 0.5, 0.75))
+```
+
+Note that function arguments are always declared with the `=` character!
+We will learn more about function arguments later.
+
+**Your turn**:
+
+*Without* using the function `mean` or `summary`, calculate the mean height (`height_cm`) using the other available functions.
+
+Hint: The mean is defined as the sum of the values divided by the number of entries.
+
+```{r calculate-mean-manually}
+
+```
+
+### Up One Level: `data.frame`
+
+If this was our actual patient data, it would be a bit inconvenient to have vectors of data lying around on their own.
+THis is what the `data.frame` is for: R's tabular data structure.
+
+```{r}
+patients <- data.frame(
+  id = 1:5,
+  age = c(30, 33, 31, 29, 40),
+  height_cm = c(184, 174, 171, 179, 180)
+  weight_kg = c(75, 64, 70, 85, 78)
+)
+```
+
+### Missing data
+
+At some point in your analysis, you will always encounter missing data.
+Whether it's measurement error or a partial survey response, there's no way to avoid it.
+
+In R, missing values are denoted `NA`, for "Not Available".
+It's important to note that there is absolute *no* information, so we can not do **anything** with missing values:
+
+```{r}
+# vector with missing value
+age <- c(30, 32, 38, NA, 27)
+
+mean(age)
+sum(age)
+```
+
+The missing value could be *anything*, so R is cautious and refues to give you any sort of answer!
+
+What do we do with that?
+
+### Excursion: The Help
+
+We really want the mean of the age here, but we don't want to exclude an entire patient from our dataset.
+
+We can check R's built-in **help system** by adding a `?` in front of any function name (without parentheses).
+Try it out using the `mean` function!:
+
+```{r}
+?mean
+```
+
+A help page alyways has the same format:
+
+- The **name** of the function or help page topic
+- **Description** tells you what it does
+- **Usage** shows you what other _arguments_ the function has, followed by
+- **Arguments** explaining each one in more detail
+- **Value** tells you what the function returns, like `mean()` returning a scalar, but `range()` returning a vector with 2 values
