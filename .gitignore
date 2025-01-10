@@ -3,4 +3,8 @@
 .RData
 .Ruserdata
 
+README.html
 data/*rds
+attic/
+*_files
+*.html
