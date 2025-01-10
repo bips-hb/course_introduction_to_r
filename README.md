@@ -46,7 +46,7 @@ Follow these instructions depending on your preferences / needs:
 - Extract the downloaded ZIP file
 - Double-click `course_introduction_to_r.Rproj`
 
-![](img/github-1.png)
+![](assets/img/github-1.png)
 
 
 ### Using posit.cloud
@@ -55,15 +55,15 @@ Log in on <https://posit.cloud> using whichever method you prefer (it's free!)
 
 Choose "New Project"]
 
-![(img/positcloud-1.png)
+![(assets/img/positcloud-1.png)
 
 Choose "New project from Git repository"
 
-![](img/positcloud-2.png)
+![](assets/img/positcloud-2.png)
 
 For the URL, enter `https://github.com/bips-hb/course_introduction_to_r.git`
 
-![](img/positcloud-3.png)
+![](assets/img/positcloud-3.png)
 
 
 ## Additional materials

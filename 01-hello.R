@@ -6,7 +6,7 @@
 # Run each line of code by pressing Ctrl + Enter or by clicking the "Run" button in the
 # top right corner of the editor area.
 
-# We can do math with + - * / and ^ 
+# We can do math with + - * / and ^
 1 + 10 - 4 # Addition and subtraction
 936 / 12   # Division
 7 * 12     # Multiplication
@@ -44,10 +44,6 @@ age + 1
 age <- age + 1
 age
 
-weight_kg <- 75
-height_cm <- 180
-height_m <- height_m * 100
+height_cm <- 182
+height_m <- height_cm / 100
 
-# And do calculations with them, like the BMI
-# BMI:
-weight_kg / (height_m^2)

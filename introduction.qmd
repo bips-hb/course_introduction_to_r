@@ -6,7 +6,7 @@ format:
     incremental: true
     smaller: true
     center: true
-    css: style.css
+    css: assets/style.css
 editor: source
 ---
 
@@ -61,7 +61,7 @@ R is a programmig *language*, so keep in mind that
 
 ## Orientation: RStudio
 
-![](img/rstudio-example.png)
+![](assets/img/rstudio-example.png)
 
 ## Stay Organized
 
@@ -90,8 +90,8 @@ Go to
 ::: spacer-2
 :::
 
-::: big
-github.com/bips-hb/course_introduction_to_r
+::: big150
+`github.com/bips-hb/course_introduction_to_r`
 :::
 
 ::: spacer-2
