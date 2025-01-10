@@ -28,7 +28,6 @@ The sections are:
 
 - Basic hypothesis testing for common research questions  
 
-
 ## Prerequisites
 
 Ideally R and RStudio are already installed at the start of the course. See [these instructions](https://lukasburk.de/posts/install-r/) for example.
@@ -54,18 +53,26 @@ Follow these instructions depending on your preferences / needs:
 
 Log in on <https://posit.cloud> using whichever method you prefer (it's free!)
 
-![Choose "New Project"](img/positcloud-1.png)
+Choose "New Project"]
 
-![Choose "New project from Git repository"](img/positcloud-2.png)
+![(img/positcloud-1.png)
 
-![For the URL, enter `https://github.com/bips-hb/course_introduction_to_r.git`](img/positcloud-3.png)
+Choose "New project from Git repository"
+
+![](img/positcloud-2.png)
+
+For the URL, enter `https://github.com/bips-hb/course_introduction_to_r.git`
+
+![](img/positcloud-3.png)
 
 
 ## Additional materials
 
 ### Introductory courses
 
-- [R Crash Course](https://r-crash-course.github.io/)
+Materials here are in part inspired by the great work other people have already done and kindly shared with the community!
+
+- [R Crash Course](https://r-crash-course.github.io/) (based on [a Software Caroentry coruse](https://swcarpentry.github.io/r-novice-gapminder/)
 - [The R Workshop](https://www.r-workshop.org/) by Rebecca L. Barter
 
 ### Books
