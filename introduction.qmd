@@ -1,0 +1,100 @@
+---
+title: "Introduction to data management and data analysis with R and RStudio"
+author: "Lukas Burk & Luca Bergen"
+format: 
+  revealjs:
+    incremental: true
+    smaller: true
+    center: true
+    css: style.css
+editor: source
+---
+
+## Welcome to the workshop!
+
+-   **Time**: 5 days, 1pm - 5pm
+-   **Plan**: Work through materials *interactively*
+-   We introduce and explain concepts
+-   You have a chance to *experiment* with the material
+-   **We help out** where necessary
+
+. . .
+
+**Goal**: You know where to start when you want to analyze your own data!
+
+## What are R and RStudio?
+
+-   **R** is a programming language used either
+-   *interactively* in a **console**,
+-   or non-interactively by executing *scripts*
+
+. . .
+
+-   **RStudio** is a popular *integrated development environment* (IDE) for R
+-   If R is a horse, RStudio is a *saddle*
+-   -\> You can use R "alone", but it's much more comfortable with RStudio!
+
+## Why is R Userful?
+
+-   Powerful **statistical analysis** tools
+-   Publication-ready **data visualization**
+-   Huge **open-source ecosystem**!
+
+. . .
+
+```{r ggbetween}
+ggstatsplot::ggbetweenstats(gtsummary::trial, x = trt, y = marker, xlab = "Treatment", ylab = "Tumor Marker (ng/mL)")
+```
+
+## Managing Expectations
+
+R is a programmig *language*, so keep in mind that
+
+-   learning a language takes time!
+-   you will need to memorize vocabulary
+-   getting used to grammar can be frustrating
+-   lots of practice is needed to become fluent
+
+. . .
+
+**But also**: It feels great to make progress!
+
+## Orientation: RStudio
+
+![](img/rstudio-example.png)
+
+## Stay Organized
+
+Some recommendations to keep organized:
+
+-   Every project has it's own dedicated directory
+-   Projects are not nested
+-   RStudio keeps a project file in the projects *root* directory Here: `course_introduction_to_r.Rproj`
+-   Double-click this file to open the project in RStudio
+
+## Ready to Go?
+
+::: nonincremental
+You should have R and RStudio installed and **RStudio** open and working
+
+If not:
+
+-   Installation instructions: <https://lukasburk.de/posts/install-r>
+-   If all fails use RStudio in the browser via <https://posit.cloud> (needs registration but can be used for free)
+:::
+
+## Get the Workshop Materials {.center}
+
+Go to
+
+::: spacer-2
+:::
+
+::: big
+github.com/bips-hb/course_introduction_to_r
+:::
+
+::: spacer-2
+:::
+
+and scroll down to follow the instructions in the README!
