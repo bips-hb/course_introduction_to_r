@@ -38,7 +38,7 @@ If a local setup is not feasible, consider using an online service such as [Posi
 
 Depending on your setup, you can either work with these materials *locally* on your own computer or in the browser on a cloud service, [Posit Cloud](https://posit.cloud/).
 
-Follow these instructions depending on your preferences / needs:
+Installing the required packages is part of the course, but if you want to be safe (e.g. due to technical issues like unstable internet connection) follow these instructions depending on your preferences / needs and afterwards refer to [`install-packages.R`](./install-packages.R) and run the script to install R packages.
 
 ### Locally with R / RStudio installed
 
@@ -47,7 +47,6 @@ Follow these instructions depending on your preferences / needs:
 - Double-click `course_introduction_to_r.Rproj`
 
 ![](assets/img/github-1.png)
-
 
 ### Using posit.cloud
 

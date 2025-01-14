@@ -1,0 +1,269 @@
+---
+title: "3: Tabular Data"
+format: html
+editor: visual
+---
+
+So far we have used individual vectors as data, but of course it is not particularly convenient to work with real data like that. Whether your data originally is stored in an Excel file or some sort of database system, it is usually stored in a *tabular* format, ideally with two key properties:
+
+1.  Each **column** of your data is a **variable** (like age, weight, ...)
+2.  Each **row** of your data is an **observation** (like a single patient, a hospital, a country, ...)
+
+In the real world, data tends to come in all shapes and sizes, but for the purposes of analysis this is the shape to strive for.
+
+Just like we made up some patient data to store as vectors, we can use the same approach to create tabular data, using the `data.frame()` function. Each argument of this function takes a *vector* just like we used before, so in a sense the `data.frame` is just a way to organize vectors that all must have the same length!
+
+```{r df-ex1}
+example_df <- data.frame(
+  id = 1:5,
+  age = c(35, 32, 26, 40, 34),
+  weight_kg = c(75, 64, 71, 45, 85)
+)
+
+example_df
+```
+
+## Working with Tabular Data
+
+We manipulated vectors by indexing them with `[ ]`, things are more complicated with `data.frames` but fundamentally the idea is the same!
+
+We can access individual **columns** of the data.frame like the vectors they are using either `$` or *double* brackets for indexing `[[ ]]` where the index can be the integer index or *the name* of the variable, so these are all identical and result in a vector:
+
+```{r df-access-columns}
+example_df$age
+example_df[[2]]
+example_df[["age"]]
+```
+
+Since this gives us a vector, we can do the usual vector things:
+
+```{r df-vector-subset}
+# First 5 age values
+example_df$age[1:5]
+
+# All age values under 30
+example_df$age[example_df$age < 30]
+
+# 2nd column, 3rd element
+example_df[[2]][3]
+```
+
+This becomes inconvenient really quickly though, which is why there are better ways we'll see soon.
+
+Note that this way we can only ever get *one* vector, so this does **not work** as we might expect:
+
+```{r, eval=FALSE}
+example_df[[c(1, 2)]]
+example_df[[c("id", "age")]]
+```
+
+We can however use single brackets to access one *or more* columns, rows, or both, and it get's a little more complex:
+
+```{r df-access-colrow}
+# First column, result is a data.frame
+example_df[1]
+example_df["id"]
+# 3rd row
+example_df[3, ]
+# First column, 5th row
+example_df[5, 1]
+example_df[5, "id"]
+```
+
+When we use single brackets, the result is still a `data.frame` unless in the last case where the result is a scalar. This can become somewhat tricky, but if you *insist* on the result being a `data.frame` you can add `drop = FALSE`:
+
+```{r df-drop}
+example_df[5, 1, drop = FALSE]
+```
+
+This is a "good to know and easy to forget" bit of information. Soon we will introduce mechanisms to make working with tabular data a bit more intuitive, but since you will most likely encounter this type of code in the wild, we'll practice it a little soon.
+
+## Getting Data
+
+### Built-in
+
+R comes with some built-in datasets that are "just there":
+
+```{r df-builtin}
+sleep
+mtcars
+iris
+```
+
+They are built-in in the sense that they are part of the R installation - you can not accidentally delete them and you don't need to do anything special to access them, which makes them the standard case for tutorials and examples --- and of course also a little boring!
+
+### Reading External Data
+
+Most often you will have some external source of data you then want to work with in R, and there are many different ways to do that. One of the simplest is to have the data available locally in a well-known and well-supported format like CSV, which can usually be created easily from software like Excel or database systems.
+
+In R, there is a built-in function `read.csv()` that does the job well enough:
+
+```{r read-csv}
+example_df <- read.csv("data-raw/example.csv")
+example_df
+```
+
+When it comes to reading external data, tons of things can go wrong and for now, we just assume that it went okay.
+
+For future reference though:
+
+-   When in doubt, google around for how to best read the given data into R
+-   Ensure to glance at the relevant documentation, e.g. for `?read.csv`, if you run into errors or unexpected behavior
+-   Refer to [this chapter in R4DS](https://r4ds.hadley.nz/import)
+
+## Excursion: Packages
+
+Before we move on, it's time to take a look at this open source ecosystem we mentioned in the beginning. In R, this mostly means we can install *packages*. A package is a collection of functions and sometimes other objects which we can use for additional capabilities, and lets us benefit from other people's work such that we don't have to reinvent the wheel every time we do an analysis.
+
+We can install packages using either RStudio's "Packages" pane to the right, or we can use R functions directly.
+
+For example, there is a package called "\`readxl\`\`" which allows us to read data in SPSS or SAS formats into R, and we can install it like this:
+
+```{r install-package, eval=FALSE}
+install.packages("readxl")
+```
+
+We can then **load** the package using the `library()` function.
+
+```{r load-package}
+library(readxl)
+```
+
+We can now use functions from the package, and if we don't know where to start, usually `?readxl` is a good entrypoint.
+
+Keep in mind:
+
+1.  You have to **install** a package *once* into your "library"
+2.  You have to **load** the package every time you restart R
+3.  You **should** occasionally *update* your installed packages using `update.packages()`.
+
+As an example for what we would use `readxl` for, let's read an example dataset stored on `data-raw` in this folder in the `.xlsx` format.
+
+```{r read-xlsx}
+example_df <- read_excel("data-raw/example.xlsx")
+```
+
+::: {.callout-note} 
+
+Once a package is installed, it is also possible to use one of its functions without loading it beforehand by using the `::` syntax, like `readxl::read_excel(...)`
+
+We won't do that here yet, but in the wild you might find people referring to a function in the format `somePackage::some_fun()` to clarify they mean `some_fun()` from the package `somePackage`!
+
+:::
+
+### Your Turn
+
+We will now move on to using more packages, which of course first need installation.
+
+Unless you have already done so, install the following packages:
+
+-   "tidyverse"
+-   "gapminder"
+-   "gtsummary"
+-   "ggstatsplot"
+
+**Optionally** you can install the package `pak` first, and then install the packages above using `pkg_install()`:
+
+```{r install-pak, eval=FALSE}
+pkg_install("tidyverse")
+```
+
+`pak` should be a bit faster and depending on your operating system also more robust, and it brings a few features not relevant yet.
+
+In any case, this might take a moment!
+
+
+## Knowing Your Data
+
+As mentioned, accessing tabular data is a bit more complex than it is for vectors, and in the next section we will learn about convenient tools for this case.
+However, there are some common built-in tools that R provides for this which you should be at least aware of.
+
+We'll start with a new dataset from one of the packages you just installed: `gapminder`
+This dataset is based on the [Gapminder](https://www.gapminder.org/) data, and also part of (Hans Rosling's almost 20 year old TED talk](https://www.ted.com/talks/hans_rosling_the_best_stats_you_ve_ever_seen).
+
+First we _load the data_ which in this case means to just load the `gapminder` package to access the dataset with the same name (confusingly so) 
+
+
+```{r}
+library(gapminder)
+
+gapminder
+```
+
+To see the number of rows and colums, we can use `nrow()`, `ncol()`, or `dim()`.
+
+```{r}
+nrow(gapminder)
+ncol(gapminder)
+dim(gapminder)
+```
+
+We often want to see the first or last few rows using `head()` and `tail()` (note: these also work on vectors!)
+
+```{r}
+head(gapminder)
+tail(gapminder)
+```
+
+We can also use `str()` to get a basic overview of the data, including each variables type:
+
+```{r}
+str(gapminder)
+```
+
+Don't forget we can also refer to the documentation using `?gapminder` to learn about what each variable means!
+
+There is also something new there: A type of data we have not encountered before: The `factor`!
+`factors` are for _categorical data_, particularly the kind where we know beforehand how many different categories there are and what they are called.
+
+A quick example:
+
+```{r factor-example-1}
+fruit <- factor(c("apple", "orange", "apple"))
+fruit
+
+levels(fruit)
+```
+
+
+```{r factor-example-2}
+fruit <- factor(
+   c("orange", "apple", "apple", "orange", "apple", "orange"), 
+   levels = c("apple", "banana", "orange")
+)
+fruit
+
+levels(fruit)
+```
+
+`factors` are like `characters` but with _additional information_ stored in them, and dealing with them can be a bit counter-intuitive.
+For now, we're happy with knowing that they exists and that they are useful for categorical data!
+
+In `gapminder`, there are two `factor` variables as we have seen using `str()`: `country` and `continent`.
+
+We can use `table()` to get a broad overview of what we are dealing with
+
+```{r}
+table(gapminder$continent)
+```
+
+We will get a better overview later, but for now we'll practice the basics for a moment
+
+### Your Turn
+
+Using the `gapminder` data, find out the following:
+
+1. How many different countries are in the dataset?
+2. For the country of _Mauritius_, what is the range of years we have data for?
+3. Which country has the longest life expectancy in any year after 2000?
+
+
+```{r gapminder-exploration-1}
+
+```
+
+
+Hints:
+
+- The function `unique()` is similar to `levels()` for factors, but more general -- both can be combined with `length()`!
+- Sometimes a function does exactly what it says it does, like `sort()`

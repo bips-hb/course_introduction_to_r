@@ -1,5 +1,5 @@
 ---
-title: "R Fundamentals"
+title: "2: R Fundamentals"
 format: html
 editor: source
 editor_options: 
@@ -8,11 +8,14 @@ editor_options:
 
 ## Hello There!
 
-This is a Quarto document. It contains regular text, code, and output when viewed in RStudio. It can also be converted into an HTML (or PDF) document, where code and output are shown together as well.
+This is a Quarto document.
+It contains regular text, code, and output when viewed in RStudio.
+It can also be converted into an HTML (or PDF) document, where code and output are shown together as well.
 
-This text is formatted using *Markdown*, a lightweight syntax that uses asterisks (`*`), underscores (`_`), hyphens (`-`), and parentheses / brackets (`()` and `[]`) to format text. We can also embed images:
+This text is formatted using *Markdown*, a lightweight syntax that uses asterisks (`*`), underscores (`_`), hyphens (`-`), and parentheses / brackets (`()` and `[]`) to format text.
+We can also embed images:
 
-![rstudio-overview](img/rstudio-example.png)
+![rstudio-overview](assets/img/rstudio-example.png)
 
 We can also write R code in a code block and execute it using either Ctrl + R like in a regular script or using the green button on the top right of the cell:
 
@@ -25,18 +28,18 @@ We can also write R code in a code block and execute it using either Ctrl + R li
 (2 + 5) / 4
 ```
 
-Throughout the workshop, we will use this format to interweave text and explanations with code examples. 
+Throughout the workshop, we will use this format to interweave text and explanations with code examples.
 You can modify the code in the blocks and rerun them to see the results, and later we will provide partial code examples where your task will be to complete them to solve a given task.
-
-## R Fundamentals
 
 Before we try to do any data analysis, we first need to familiarize ourselves with R to know our way around!
 
-In the example script `00-hello.R` we have already seen that R can be used like a big calculator, and that's already pretty useful. For now, we'll build on that a little.
+In the example script `00-hello.R` we have already seen that R can be used like a big calculator, and that's already pretty useful.
+For now, we'll build on that a little.
 
-### Variables and Vectors
+## Variables and Vectors
 
-We have seen how to assign values to a variable, such as `age <- 30`. This allows us to re-use data and give it a meaningful(!) name in our work. 
+We have seen how to assign values to a variable, such as `age <- 30`.
+This allows us to re-use data and give it a meaningful(!) name in our work.
 It becomes more useful when we store not just individual number (*scalars*), but *vectors* of data.
 
 For example, say we have a small group of patients want to store their basic data, starting with their age:
@@ -47,7 +50,7 @@ age <- c(30, 33, 31, 29, 40)
 age
 ```
 
-Now `age` is a *vector*, and in R this is the most common type of data structure we deal with. 
+Now `age` is a *vector*, and in R this is the most common type of data structure we deal with.
 Note that in R, even single numbers like `5` are treated like vectors (of length 1)!
 
 We can use vectors almost exactly like single numbers for basic math:
@@ -83,11 +86,18 @@ age + 1:7
 
 But what happens here?
 
-```{r}
+```{r recycling-age}
 age + 1:10
 ```
 
-This is called **recycling** and can be great _or_ introduce unexpected behavior if it happenes by accident!
+This is called **recycling** and can be great *or* introduce unexpected behavior if it happens by accident!
+
+A simpler example:
+
+```{r recycling-ex}
+x <- c(5, 5, 5, 5, 5, 5)
+x + c(-1, 1)
+```
 
 Let's assume add more patient data:
 
@@ -96,18 +106,16 @@ height_cm <- c(184, 174, 171, 179, 180)
 weight_kg <- c(75, 64, 70, 85, 78)
 ```
 
+### Your turn
 
-**Your turn**: 
-
-Using the variables above, calculate the BMI for each patient.
-Store the reuslt in a variable called `bmi`.
-Keep in mind you can use parentheses to group caluclations like in a calculator, e.g. `(x + 4) * y`
+-   Using the variables above, calculate the BMI for each patient.
+-   Store the result in a variable called `bmi`. Keep in mind you can use parentheses to group calculations like in a calculator, e.g. `(x + 4) * y`
 
 ```{r bmi-vector-calc}
 
 ```
 
-### Functions
+## Functions
 
 On vectors, we can use additional functions common in statistics and data analysis:
 
@@ -136,18 +144,17 @@ sum(height_cm)
 summary(height_cm)
 ```
 
-Functions can take _arguments_ which specify further options. 
+Functions can take *arguments* which specify further options, always separated by a comma `,`.
 Example: To calculate the quartiles of a vector without `summary()`, we take the function `quantile()` to calculate the 25%, 50%, and 75% quartiles:
 
 ```{r}
-# quartiles
 quantile(height_cm, probs = c(0.25, 0.5, 0.75))
 ```
 
 Note that function arguments are always declared with the `=` character!
 We will learn more about function arguments later.
 
-**Your turn**:
+### Your turn
 
 *Without* using the function `mean` or `summary`, calculate the mean height (`height_cm`) using the other available functions.
 
@@ -157,21 +164,96 @@ Hint: The mean is defined as the sum of the values divided by the number of entr
 
 ```
 
-### Up One Level: `data.frame`
 
-If this was our actual patient data, it would be a bit inconvenient to have vectors of data lying around on their own.
-THis is what the `data.frame` is for: R's tabular data structure.
+## Vector Types
 
-```{r}
-patients <- data.frame(
-  id = 1:5,
-  age = c(30, 33, 31, 29, 40),
-  height_cm = c(184, 174, 171, 179, 180)
-  weight_kg = c(75, 64, 70, 85, 78)
-)
+So far we have seen numeric values only, but there are other useful types we will need down the road, and maybe a detail that might be good to know.
+
+In R, there are these basic types:
+
+-   Numeric for numbers:
+    -   `10`, `-3.2`, and the value of `pi`
+-   Character for text:
+    -   `"hello"`, `"a"` and `""` (an empty string)
+-   Logical (also "boolean"):
+    -   Either `TRUE` or `FALSE`
+    
+When we create a vector, it can only be of _one_ type!
+
+```{r type-mix}
+# Numeric vector
+c(1, 2, 3)
+# Character vector
+c("1", "a", "v")
+# Also becomes a character vector!
+c(1, 2, "3")
 ```
 
-### Missing data
+**"Numeric"** is technically a class further separated into whole numbers (*integers*) and decimal numbers.
+The latter are referred to as "floating point numbers" and the type is called "*double*" for boring history-of-computing reasons. Usually a numeric vector in R is a double, unless explicitly denoted an integer.
+You can check the difference with the function `typeof()`, e.g. `typeof(3)`
+
+The important bit is that they have upper and lower limits because computers can't store numbers with arbitrary precision:
+
+```{r precision-double}
+10^3
+10^10
+10^100
+10^1000
+
+# Too close to zero
+10^-1000
+```
+
+The `e` here is for "exponent" and `1e5` is identical to `1 * 10^5`, and `2e-3` is `2 * 10^-3` or `0.002`.
+
+**Integers** are sometimes used explicitly, and we write them like so: `1L` (the "L" has weird historic reasons).
+It can be useful to use integers explicitly, or to be aware of your data being in integer format rather than double.
+
+```{r typeof-integer-double}
+typeof(3)
+typeof(3L)
+```
+
+
+**Characters** are useful for text and categorical information, for example to denote regions of origin in a dataset:
+
+```{r}
+countries <- c("Europe", "North America", "East Asia")
+```
+
+For **logicals** it's important to note that `TRUE` and `FALSE` are reserved words, so you can't use them as variable names.
+
+::: {.callout-note}
+
+Some `"character"`-related things to keep on the "I know where to look it up" pile:
+
+- `c("apples", "oranges")` is a *character vector* of length 2. You might encounter the notation `character(2)` to refer to this type and length
+- A character vector has a _length_ just like any other vector retrievable with `length(x)`
+- If you want to know the _number of characters_ in a character vector, use `nchar(x)`
+- `nchar(c("apples", "oranges"))` gives you the number of characters for each string!
+
+:::
+
+### Changing Types
+
+In many cases we can change the type of a vector from one to another, but only if it is _meaningful_ to do so.  
+
+For example, we can use `as.character()` to turn any numeric vector into a character vector and we will be able to convert it back with `as.numeric()`, but if we start with a character vector like `c("apples", "bananas")`, there's no meaningful way to convert it to a numeric vector!
+
+```{r conversion-examples}
+as.character(1:5)
+as.numeric(as.character(1:5))
+as.numeric(c("apples", "bananas"))
+```
+
+### Your Turn
+
+1. Create vectors of the types integer, double, character and logical
+2. Experiment with the functions `as.numeric`, `as.integer`, `as.double`, `as.character`, `as.logical`
+
+
+## Missing data
 
 At some point in your analysis, you will always encounter missing data.
 Whether it's measurement error or a partial survey response, there's no way to avoid it.
@@ -181,17 +263,17 @@ It's important to note that there is absolute *no* information, so we can not do
 
 ```{r}
 # vector with missing value
-age <- c(30, 32, 38, NA, 27)
+age <- c(30, 32, 38, 27, NA, 27, 29, NA, 30, 31)
 
 mean(age)
 sum(age)
 ```
 
-The missing value could be *anything*, so R is cautious and refues to give you any sort of answer!
+The missing value(s) could be *anything*, so R is cautious and refuses to give you any sort of answer!
 
 What do we do with that?
 
-### Excursion: The Help
+## Excursion: The Help
 
 We really want the mean of the age here, but we don't want to exclude an entire patient from our dataset.
 
@@ -202,10 +284,149 @@ Try it out using the `mean` function!:
 ?mean
 ```
 
-A help page alyways has the same format:
+A help page always has the same format:
 
-- The **name** of the function or help page topic
-- **Description** tells you what it does
-- **Usage** shows you what other _arguments_ the function has, followed by
-- **Arguments** explaining each one in more detail
-- **Value** tells you what the function returns, like `mean()` returning a scalar, but `range()` returning a vector with 2 values
+-   The **name** of the function or help page topic
+-   **Description** tells you what it does
+-   **Usage** shows you what other *arguments* the function has, followed by...
+-   **Arguments** explaining each one in more detail
+-   **Value** tells you what the function returns, like `mean()` returning a scalar, but `range()` returning a vector with 2 values
+-   **Examples** show you concrete code examples that you can usually copy and paste into the console to see the function in action! This where we hope the developer has taken the time to provide good examples :)
+
+### Your turn
+
+-   Calculate the mean of the `age` variable above with the missing value, using the `mean` function (Remember the name of the relevant argument - it will come up often!)
+-   What else can `mean` do that might be useful sometimes?
+-   Also calculate the median and variance of `age`
+
+```{r calc-missing}
+
+```
+
+Bonus:
+
+-   Look at the help page of `table()`. It looks a little different in the "Usage" part
+
+## More Vector-Work
+
+Now we can already do many things with vectors, but there is one important thing missing:\
+We can't access individual elements or ranges yet.
+In R, we do that using square brackets with an index number: `x[1]` gives us the first element of `x`.
+
+Some examples:
+
+```{r}
+x <- 11:20
+
+x[1]
+x[5:7]
+x[c(1, 2, 6)]
+```
+
+This is called *indexing* a vector and it's one of the most common operations!
+
+We will practice this later, but before we do...
+
+
+### A Little Logic Crash Course
+
+We spoke of logical values before, and it's time to get to know them a little better!
+
+One of the most common applications is in **comparisons**, i.e., is `x` greater, equal, or less than `y`?
+In R, we can do these comparisons using *logcal operators*:
+
+- `==` **Equals** (two `=` signs without space in between)
+- `!+` **Not Equal** (Exclamation point and `=` without space in between)
+- `>` and `<` **Greater** and **Less than** (left and right angle brackets)
+- `>=` and `<=` **Greater or equal** and **Less than or equal** (angle brackets with `=`)
+
+Any statement such as `x == y` or `a < b` results in a logical value: `TRUE` or `FALSE`.
+
+for example for some fictitious weight data:
+
+```{r comparisons-1}
+weight_kg <- c(75, 64, 71, 45, 85, 78, 101, 94, 62, 70, 52)
+
+weight_kg > 60
+weight_kg == 101
+weight_kg < 75
+```
+
+These can be combined using
+
+- `&` **AND**: `a & b` is `TRUE` if and only if both `a` and `b` are `TRUE` and otherwise `FALSE`
+- `|` **OR**: `a | b` is `TRUE` if _either_ `a` _or_ `b` is `TRUE` and `FALSE` if both are `FALSE`
+
+One of the most common things to do in data analysis is to filter data based on logical comparisons, such as "patients with blood pressure over a certain threshold" or "patients who are male and older than 65".
+
+```{r comparisons-2}
+weight_kg < 60 | weight_kg > 90
+```
+
+It can be useful to turn the `TRUE` and `FALSE`s into the index positions of the vector:
+
+```{r}
+which(weight_kg == 101)
+```
+
+This tells us the 6th element is the one with the value `101`,
+
+### Vector Indexing
+
+Now we have all the tools we need to slice and dice our vectors!
+Because with the `x[<index>]` notation for vector subsetting (indexing), we can also use _logical_ values, which is very powerful!
+
+if we use a logical vector for indexing, R will give us all the elements of the vector for which the index was` TRUE` and omit those that were `FALSE`:
+
+```{r indexing-logical}
+weight_kg <- c(75, 64, 71, 45, 85, 78, 101, 94, 62, 70, 52)
+
+weight_kg[weight_kg < 60]
+weight_kg[weight_kg > 85]
+
+weight_kg[weight_kg < 60 | weight_kg > 80]
+```
+
+Note that using some of the functions from earlier we can already do some simple analysis by just counting, which is easy for logical values because `sum()` treats `TRUE` like a `1` and `FALSE` like a `0`
+
+```{r indexing-functions}
+length(weight_kg)
+
+sum(weight_kg < 60)
+sum(weight_kg < 10)
+```
+
+We can also change parts of a vector like this, like changing the 4th element to the value of 20:
+
+```{r}
+x <- 1:5
+x
+x[4] <- 20
+x
+```
+
+
+### Your turn
+
+Using the `weight_kg` variable above, subset it to find out
+
+1. How many values are smaller than the mean weight?
+2. How many are between 30 and 70?
+3. How many are between the 20% and 75% quantile?
+4. If we define outliers as those outside the 10% and 90% quantile, do we find any outliers?
+
+```{r practice-vector-indexing}
+
+```
+
+
+Another useful indexing function is `is.na()`, which tells you whether a value is `NA` or not.  
+Remember the `age` variable before?
+
+```{r}
+age <- c(30, 32, 38, 27, NA, 27, 29, NA, 30, 31)
+```
+
+
+5. Find the index positions of the `NA` values 
+6. Replace the `NA` values with the mean age when missing values are ignored

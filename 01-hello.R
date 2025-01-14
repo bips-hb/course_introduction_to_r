@@ -29,13 +29,15 @@ pi                    # The value of pi up to some threshold
   2
 
 # We can do math on numbers but not on text!
+# (we will look at text more later!)
 
-726 + 1234 # fine
+726 + 1234        # fine
 "Hello" + "world" # not fine
-2 + "two" # Also not fine
+2 + "2"         # Also not fine
 
 # We can store values in variables using <- or =
-age <- 30
+age <- 30       # Very common and "normal" in the R community
+age =  30       # Very common and "normal" in basically every other language!
 
 # We can do math with variables as with the numbers
 age + 1
@@ -47,3 +49,10 @@ age
 height_cm <- 182
 height_m <- height_cm / 100
 
+
+
+
+
+# It's cumbersome to combine text and R code in a .R script
+# Luckily Quarto provides a better way!
+# -> We'll move to 02-fundamentals.qmd

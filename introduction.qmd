@@ -22,6 +22,16 @@ editor: source
 
 **Goal**: You know where to start when you want to analyze your own data!
 
+## Who are we?
+
+- We are Lukas and Luca
+- (We are not trying to confuse you)
+
+
+- PhD students at BIPS (*Leibniz Institute for Prevention Research and Epidemiology - BIPS*, Bremen, Germany)
+- Research areas: Machine learning, causal inference, general (bio)statistics
+
+
 ## What are R and RStudio?
 
 -   **R** is a programming language used either
@@ -31,7 +41,7 @@ editor: source
 . . .
 
 -   **RStudio** is a popular *integrated development environment* (IDE) for R
--   If R is a horse, RStudio is a *saddle*
+-   If R is a **horse**, RStudio is a *saddle*
 -   -\> You can use R "alone", but it's much more comfortable with RStudio!
 
 ## Why is R Userful?
@@ -46,9 +56,29 @@ editor: source
 ggstatsplot::ggbetweenstats(gtsummary::trial, x = trt, y = marker, xlab = "Treatment", ylab = "Tumor Marker (ng/mL)")
 ```
 
+## Ecosystem
+
+-   R is enhanced through *packages*
+-   Third part software written by members of the community
+-   Available for free through *CRAN* and other repositories
+-   Thousands of packages by professionals, hobbyists, students
+-   Popular examples:
+    -   `ggplot2` for data visualization
+    -   `dplyr`for data manipulation
+    -   Part of the `tidyverse` family of packages
+-   We will install some of these for the course!
+
+## Outlook
+
+![The workflow model according to "R for Data Science (2e), Wickham et al."](assets/img/r4ds-model.png){fig-align="center" width="1000"}
+
+. . .
+
+Here we focus on **the basics**
+
 ## Managing Expectations
 
-R is a programmig *language*, so keep in mind that
+R is a programming *language*, so keep in mind that
 
 -   learning a language takes time!
 -   you will need to memorize vocabulary
@@ -69,8 +99,8 @@ Some recommendations to keep organized:
 
 -   Every project has it's own dedicated directory
 -   Projects are not nested
--   RStudio keeps a project file in the projects *root* directory Here: `course_introduction_to_r.Rproj`
--   Double-click this file to open the project in RStudio
+-   RStudio keeps a project file in the projects *root* directory: `course_introduction_to_r.Rproj`
+-   Double-click this file to open the project in RStudio once you have the materials
 
 ## Ready to Go?
 
@@ -85,6 +115,9 @@ If not:
 
 ## Get the Workshop Materials {.center}
 
+::: spacer-2
+:::
+
 Go to
 
 ::: spacer-2
@@ -98,3 +131,33 @@ Go to
 :::
 
 and scroll down to follow the instructions in the README!
+
+## One Last Thing
+
+:::::: nonincremental
+::::: columns
+::: column
+1.  Open RStudio global options
+
+![](assets/img/rstudio-options-1.png)
+:::
+
+::: column
+2.  Ensure "Restore .RData ..." is unchecked
+3.  "Save workspace.." should be set to "Never"
+
+![](assets/img/rstudio-options-2.png)
+:::
+:::::
+::::::
+
+## Moving to Code
+
+From here on out we will move through code with examples and explanations!
+
+::: spacer-2
+:::
+
+::: big150
+We start with `01-hello.R`
+:::
