@@ -14,6 +14,7 @@ In the previous section we have already heard the two core proerties of tidy dat
 2.  Each **row** of your data is an **observation**
 
 And the tidyverse is created in part to make it easy to get your data in that shape and work with data in that shape.
+If `R` in general is a language, then we can think of "tidyverse" as a kind of dialect -- it's still R, but it has a specific context and use case and it is spoken by a community of people roughly doing similar kinds of data analysis.
 
 Let's start by loading the `tidyverse` meta-package.
 
@@ -29,12 +30,12 @@ What happened here is the following:
 
 ## Tidyverse Basics: Pipes and Verbs
 
-We start by loading the `gapmidner` package again for its dataset, just like we did before:
+We start by loading the `gapmidner` package again for its dataset, just like we did before, but now we can `glimpse` it rather than `str` it:
 
 ```{r}
 library(gapminder)
 
-gapminder
+glimpse(gapminder)
 ```
 
 Remember how it was somewhat awkward to select specific rows and columns from the `data.frame` before?
@@ -49,16 +50,16 @@ In the `tidyverse`, or specifically `dplyr` syntax, we would write it like this:
 
 ```{r}
 gapminder |>
-  filter(continent == "Asia" & year == 1967) |>
-  select(country, lifeExp, pop)
+  select(country, lifeExp, pop) |>
+  filter(continent == "Asia" & year == 1967)
 ```
 
 What happened here?
 Let's dissect this one by one:
 
 1.  We started with the `gapminder` dataset, and *then*, via the "pipe" `|>`,
-2.  We used `filter()` to select **rows** using a logical expression, and *then*
 3.  We used `select()` to select specific **columns** (without having to quote tham with `"`!)
+2.  We used `filter()` to select **rows** using a logical expression, and *then*
 
 This is a combination of the pipe-syntax, which passes things down to the next function, and the most common tidyverse **verbs** that are at the core of most data operations.
 
@@ -71,7 +72,7 @@ length(x)
 x |> length()
 ```
 
-This becomes really powerful once we *chain* many functions.\
+This becomes really powerful once we *chain* many functions.  
 Consider a made-up example:
 
 ```r
@@ -116,8 +117,6 @@ x <- shake_it_around(x)
 x <- do_a_little_dance(x)
 ```
 
-
-
 Now, going back to the `gapminder` example above, we can "translate it" back to non-pipe syntax:
 
 ```{r}
@@ -126,28 +125,88 @@ select(filter(gapminder, continent == "Asia" & year == 1967), country, lifeExp, 
 
 This would still do the same, but would be much less readable.
 
-## Common Verbs
+## Common Verbs (I)
 
-All verbs take a `data.fram`e\` as their first argument, and the most important ones are:
+All verbs take a `data.frame` (or `tibble`, which are almost the same thing) as their first argument, and the most important ones are:
 
 -   `select`: Selects variables (**columns**) of the dataset (wihtout quoting them with `" "`)
 -   `filter`: Filters the dataset to only the **rows** matching the condition(s) inside
+-   `arrange`: **Sorts** the dataset by a variable like `pop`, optionally in decreasing order by using `desc()` inside.
+
+We start with `select()`, which is fairly self-explanatory and corresponds to using `[ ]` with column names or indices as we've seen before
+
+```{r}
+gapminder |>
+  select(year, country, pop)
+
+# If we happen to know the variable indices, this also works
+gapminder |>
+  select(3, 1, 5)
+```
+
+In cases where we pick out individual variables, we often want to sort by one as well:
+
+```{r}
+gapminder |>
+  select(year, continent, country) |>
+  arrange(year)
+```
+
+Or sorting descendingly with the `desc()` helepr function:
+
+```{r}
+gapminder |>
+  select(year, continent, country) |>
+  arrange(desc(year))
+```
+
+For a numeric variable like `year` we could also just sort by a negative of the variable:
+
+```{r}
+gapminder |>
+  select(year, continent, country) |>
+  arrange(-year)
+```
+
+But `desc()` has the benefit of also working for `character` (sorted alphabetically) or `factor` variables (sorted by their `levels`), which makes `desc()` applicable in more cases.
+
+```{r}
+gapminder |>
+  filter(year == 1997) |>
+  arrange(pop)
+```
+
+Note that in `filter()` you use logical expressions as we've seen in section 2!  
+You can combine multiple conditions by passing them as separate arguments with `, ` which inside `fitler()` is the same as using the logical `AND` with `&`:
+
+```{r}
+# Explicitly using AND & to combine year and country conditions
+gapminder |>
+  filter(year == 1997 & country == "Iceland")
+
+# Identical:
+gapminder |>
+  filter(year == 1997, country == "Iceland")
+```
+
+
+
+### Your turn
+
+1. Select the country and life expectency variables for the year 1952
+2. Subset the dataset to only contain data recorded after 1990
+3. Subset the dataset to only contain data in the 1970s for Ecuador
+
+```{r tidyverse-select-filter}
+
+```
+
+## Common Verbs (II)
+
 -   `mutate`: Creates a **new variables**, e.g. create `pop_m` as the variable `pop` divided by 1,000,000
 -   `group_by`: Declares the dataset to be **grouped** by the values of variable like `continent` -- we will see examples next!
 -   `summarize`: Often used after `group_by`, this **summarizes** the dataset by calculating something for each group declared by `group_by()`
--   `arrange`: **Sorts** the dataset by the variable like `pop`, optionally decreasing by using `desc(pop)` instead.
 
-In action:
-
-```{r}
-gapminder |>
-  select(pop, continent, country)
-```
-
-```{r}
-gapminder |>
-  filter(year >= 1980)
-```
 
 ```{r}
 gapminder |>
@@ -165,7 +224,7 @@ gapminder |>
 
 Or multiple things combined:
 
-```{r}
+```{r gapminder-piping}
 gapminder |>
   filter(year >= 1980) |>
   mutate(pop_m = pop / 1e6) |>
@@ -176,23 +235,39 @@ gapminder |>
   )
 ```
 
+### Your turn
+
+1. Explain in words what has happened in the previous code chunk.
+2. 
+
 ## Introducing: `ggplot2`
 
+As far as data visualization goes, `ggplot2` is probably the most popular package in the R ecosystem.  
+It's an implementation of the "Grammar of graphics", hence the `gg`, and it's well known for its versatility.
+We can create the most common types of plots with relative ease, including
+
+- Scatterplots
+- Histograms
+- Boxplots
+- Barcharts (horizontal or vertical)
+
+Let's start with an example of a scatterplot:
+
 ```{r}
-ggplot(gapminder, aes(x = lifeExp, y = gdpPercap, color = continent)) +
+ggplot(gapminder, aes(x = lifeExp, y = gdpPercap)) +
   geom_point()
 ```
 
 ```{r}
-gapminder_asia <- filter(gapminder, continent == "Asia")
+gapminder_97 <- filter(gapminder, year == 1997)
 
-ggplot(gapminder_asia, aes(x = lifeExp, y = gdpPercap, color = continent)) +
+ggplot(gapminder_97, aes(x = lifeExp, y = gdpPercap)) +
   geom_point()
 ```
 
 ```{r}
 gapminder |>
-  filter(continent == "Asia") |>
-  ggplot(aes(x = lifeExp, y = gdpPercap, color = continent)) +
+  filter(year == 1997, continent == "Asia") |>
+  ggplot(aes(x = lifeExp, y = gdpPercap)) +
   geom_point()
 ```

@@ -8,3 +8,6 @@ data/*rds
 attic/
 *_files
 *.html
+
+/.quarto/
+_site

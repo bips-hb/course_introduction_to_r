@@ -76,7 +76,8 @@ When we use single brackets, the result is still a `data.frame` unless in the la
 example_df[5, 1, drop = FALSE]
 ```
 
-This is a "good to know and easy to forget" bit of information. Soon we will introduce mechanisms to make working with tabular data a bit more intuitive, but since you will most likely encounter this type of code in the wild, we'll practice it a little soon.
+This is a "good to know and easy to forget" bit of information.
+Soon we will introduce mechanisms to make working with tabular data a bit more intuitive, but since you will most likely encounter this type of code in the wild, we'll practice it a little soon.
 
 ## Getting Data
 
@@ -223,7 +224,6 @@ str(gapminder)
 
 Don't forget we can also refer to the documentation using `?gapminder` to learn about what each variable means!
 
-
 There is also something new there: A type of data we have not encountered before: The `factor`!
 `factors` are for _categorical data_, particularly the kind where we know beforehand how many different categories there are and what they are called.
 
@@ -264,8 +264,6 @@ We can use the aforementioned `table()` to get a broad overview of what we are d
 
 ```{r}
 table(gapminder$continent)
-
-table(gapminder$country)
 ```
 
 We will get a better overview later, but for now we'll practice the basics for a moment
@@ -274,10 +272,11 @@ We will get a better overview later, but for now we'll practice the basics for a
 
 Using the `gapminder` data, try to find out the following:
 
-1. How many different countries are in the dataset?
-2. For the country of _Mauritius_, what is the range of years we have data for?
-3. Which country has the longest life expectancy in any year after 2000?
-4. Select the variables `country`, `pop` and `lifeExp`
+1. Select the variables `country`, `pop` and `lifeExp`
+2. Fitler the dataset to the year 2007
+3. How many different countries are in the dataset?
+4. For the country of _Mauritius_, what is the population in the year 1997?
+5. Which country has the longest life expectancy in any year after 2000?
 
 
 ```{r gapminder-exploration-1}
@@ -288,4 +287,4 @@ Using the `gapminder` data, try to find out the following:
 Hints:
 
 - The function `unique()` is similar to `levels()` for factors, but more general -- both can be combined with `length()`!
-- Sometimes a function does exactly what it says it does, like `sort()`
+- Sometimes a function does exactly what it sounds like it does, like `sort()`
