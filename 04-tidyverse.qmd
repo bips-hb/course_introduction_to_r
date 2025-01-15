@@ -1,0 +1,198 @@
+---
+title: "4: The Tidyverse"
+format: html
+editor: visual
+---
+
+The [**Tidyverse**](https://www.tidyverse.org/) is a collection of R packages created and maintained by the same group of people, largely from the same company that also created RStudio: Posit!
+
+The Tidyverse is designed to make data science easier, more efficient, and more fun.\
+It is built around the idea of *tidy data*, which in essence just means that data is organized in a way that makes it easy to work with.
+In the previous section we have already heard the two core proerties of tidy data:
+
+1.  Each **column** of your data is a **variable**
+2.  Each **row** of your data is an **observation**
+
+And the tidyverse is created in part to make it easy to get your data in that shape and work with data in that shape.
+
+Let's start by loading the `tidyverse` meta-package.
+
+```{r load-tiyverse}
+library(tidyverse)
+```
+
+You'll see a lot of information there, and that's nothing to worry about.
+What happened here is the following:
+
+1.  The `tidyverse` package's main purpose is to load *other* packages, like `dplyr`, `ggplot2`, `tibble`, ... -\> These are the *actual* tidyverse packages that provide the functionality we want!
+2.  It warns you about **conflicting function names**, like `filter` and `lag`. There are built-in functions in R of the same name that do very different things than they do in the tidyverse, and for the most part that is not a problem **unless** you try to use the function `filter` from the `dplyr` package but forgot to load `dplyr` beforehand!
+
+## Tidyverse Basics: Pipes and Verbs
+
+We start by loading the `gapmidner` package again for its dataset, just like we did before:
+
+```{r}
+library(gapminder)
+
+gapminder
+```
+
+Remember how it was somewhat awkward to select specific rows and columns from the `data.frame` before?
+
+For example, here is "country, life expectancy and population for all asian countries in 1967" in *base R* syntax:
+
+```{r}
+gapminder[gapminder$continent == "Asia" & gapminder$year == 1967, c("country", "lifeExp", "pop")]
+```
+
+In the `tidyverse`, or specifically `dplyr` syntax, we would write it like this:
+
+```{r}
+gapminder |>
+  filter(continent == "Asia" & year == 1967) |>
+  select(country, lifeExp, pop)
+```
+
+What happened here?
+Let's dissect this one by one:
+
+1.  We started with the `gapminder` dataset, and *then*, via the "pipe" `|>`,
+2.  We used `filter()` to select **rows** using a logical expression, and *then*
+3.  We used `select()` to select specific **columns** (without having to quote tham with `"`!)
+
+This is a combination of the pipe-syntax, which passes things down to the next function, and the most common tidyverse **verbs** that are at the core of most data operations.
+
+The pipe `|>` works everywhere in R, and `x |> foo()` is just a different way to write `foo(x)`:
+
+```{r}
+x <- 1:10
+
+length(x)
+x |> length()
+```
+
+This becomes really powerful once we *chain* many functions.\
+Consider a made-up example:
+
+```r
+x |>
+  do_the_thing() |>
+  do_the_other_thing() |>
+  twist_it() |>
+  shake_it_around() |>
+  do_a_little_dance()
+```
+
+Here you can read the code top to bottom, and understand the sequence of events just by following the code.
+Consider what this would look like without the `|>`:
+
+```r
+do_a_little_dance(shake_it_around(twist_it(do_the_other_thing(do_the_thing(x)))))
+```
+
+Or, with a little more indentation:
+
+```r
+do_a_little_dance(
+  shake_it_around(
+    twist_it(
+      do_the_other_thing(
+        do_the_thing(x)
+      )
+    )
+  )
+)
+```
+
+You would have to read the code "inside out" to follow what's happening here.
+
+Another alternative would be to create new variables or overwrite the previous one, like so:
+
+```r
+x <- do_the_thing(x)
+x <- do_the_other_thing(x)
+x <- twist_it(x)
+x <- shake_it_around(x) 
+x <- do_a_little_dance(x)
+```
+
+
+
+Now, going back to the `gapminder` example above, we can "translate it" back to non-pipe syntax:
+
+```{r}
+select(filter(gapminder, continent == "Asia" & year == 1967), country, lifeExp, pop)
+```
+
+This would still do the same, but would be much less readable.
+
+## Common Verbs
+
+All verbs take a `data.fram`e\` as their first argument, and the most important ones are:
+
+-   `select`: Selects variables (**columns**) of the dataset (wihtout quoting them with `" "`)
+-   `filter`: Filters the dataset to only the **rows** matching the condition(s) inside
+-   `mutate`: Creates a **new variables**, e.g. create `pop_m` as the variable `pop` divided by 1,000,000
+-   `group_by`: Declares the dataset to be **grouped** by the values of variable like `continent` -- we will see examples next!
+-   `summarize`: Often used after `group_by`, this **summarizes** the dataset by calculating something for each group declared by `group_by()`
+-   `arrange`: **Sorts** the dataset by the variable like `pop`, optionally decreasing by using `desc(pop)` instead.
+
+In action:
+
+```{r}
+gapminder |>
+  select(pop, continent, country)
+```
+
+```{r}
+gapminder |>
+  filter(year >= 1980)
+```
+
+```{r}
+gapminder |>
+  mutate(pop_m = pop / 1e6)
+```
+
+```{r}
+gapminder |>
+  group_by(continent)
+
+gapminder |>
+  group_by(continent) |>
+  summarize(mean_pop = mean(pop))
+```
+
+Or multiple things combined:
+
+```{r}
+gapminder |>
+  filter(year >= 1980) |>
+  mutate(pop_m = pop / 1e6) |>
+  group_by(continent) |>
+  summarize(
+    mean_pop_m = mean(pop_m),
+    median_pop_m = median(pop_m)
+  )
+```
+
+## Introducing: `ggplot2`
+
+```{r}
+ggplot(gapminder, aes(x = lifeExp, y = gdpPercap, color = continent)) +
+  geom_point()
+```
+
+```{r}
+gapminder_asia <- filter(gapminder, continent == "Asia")
+
+ggplot(gapminder_asia, aes(x = lifeExp, y = gdpPercap, color = continent)) +
+  geom_point()
+```
+
+```{r}
+gapminder |>
+  filter(continent == "Asia") |>
+  ggplot(aes(x = lifeExp, y = gdpPercap, color = continent)) +
+  geom_point()
+```

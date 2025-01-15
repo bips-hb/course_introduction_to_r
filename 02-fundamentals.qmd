@@ -33,7 +33,7 @@ You can modify the code in the blocks and rerun them to see the results, and lat
 
 Before we try to do any data analysis, we first need to familiarize ourselves with R to know our way around!
 
-In the example script `00-hello.R` we have already seen that R can be used like a big calculator, and that's already pretty useful.
+In the example script `01-hello.R` we have already seen that R can be used like a big calculator, and that's already pretty useful.
 For now, we'll build on that a little.
 
 ## Variables and Vectors
@@ -185,8 +185,9 @@ When we create a vector, it can only be of _one_ type!
 c(1, 2, 3)
 # Character vector
 c("1", "a", "v")
-# Also becomes a character vector!
+# Also become a character vectors!
 c(1, 2, "3")
+c(1, TRUE, FALSE, "a")
 ```
 
 **"Numeric"** is technically a class further separated into whole numbers (*integers*) and decimal numbers.
@@ -273,7 +274,7 @@ The missing value(s) could be *anything*, so R is cautious and refuses to give y
 
 What do we do with that?
 
-## Excursion: The Help
+## The Help
 
 We really want the mean of the age here, but we don't want to exclude an entire patient from our dataset.
 
@@ -333,12 +334,13 @@ We will practice this later, but before we do...
 We spoke of logical values before, and it's time to get to know them a little better!
 
 One of the most common applications is in **comparisons**, i.e., is `x` greater, equal, or less than `y`?
-In R, we can do these comparisons using *logcal operators*:
+In R, we can do these comparisons using *logical operators*:
 
-- `==` **Equals** (two `=` signs without space in between)
-- `!+` **Not Equal** (Exclamation point and `=` without space in between)
-- `>` and `<` **Greater** and **Less than** (left and right angle brackets)
-- `>=` and `<=` **Greater or equal** and **Less than or equal** (angle brackets with `=`)
+- `x ==` **Equals** (two `=` signs without space in between)
+- `x !+` **Not Equal** (Exclamation point and `=` without space in between)
+- `x > y` and `x < y` **Greater** and **Less than** (left and right angle brackets)
+- `x >= y` and `x <= y` **Greater or equal** and **Less than or equal** (angle brackets with `=`)
+- `x %in% y` is `x` **in** `y`?
 
 Any statement such as `x == y` or `a < b` results in a logical value: `TRUE` or `FALSE`.
 
@@ -350,6 +352,7 @@ weight_kg <- c(75, 64, 71, 45, 85, 78, 101, 94, 62, 70, 52)
 weight_kg > 60
 weight_kg == 101
 weight_kg < 75
+85 %in% weight_kg
 ```
 
 These can be combined using
@@ -408,7 +411,7 @@ x
 
 ### Your turn
 
-Using the `weight_kg` variable above, subset it to find out
+Using the `weight_kg` variable above, subset it to find out...
 
 1. How many values are smaller than the mean weight?
 2. How many are between 30 and 70?

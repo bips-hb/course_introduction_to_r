@@ -117,7 +117,7 @@ Before we move on, it's time to take a look at this open source ecosystem we men
 
 We can install packages using either RStudio's "Packages" pane to the right, or we can use R functions directly.
 
-For example, there is a package called "\`readxl\`\`" which allows us to read data in SPSS or SAS formats into R, and we can install it like this:
+For example, there is a package called "readxl" which allows us to read data in SPSS or SAS formats into R, and we can install it like this:
 
 ```{r install-package, eval=FALSE}
 install.packages("readxl")
@@ -143,9 +143,19 @@ As an example for what we would use `readxl` for, let's read an example dataset 
 example_df <- read_excel("data-raw/example.xlsx")
 ```
 
+Here, the function `read_excel()` is provided by the package `readxl` and only available when that package is installed and loaded!
+Am error message like
+
+```
+could not find function "read_excel"
+```
+
+indicated that you either have not loaded the required package or maybe mistyped the function name.
+
+
 ::: {.callout-note} 
 
-Once a package is installed, it is also possible to use one of its functions without loading it beforehand by using the `::` syntax, like `readxl::read_excel(...)`
+Once a package is installed, it is also possible to use one of its functions without loading it beforehand by using the `::` syntax, like `readxl::read_excel()`
 
 We won't do that here yet, but in the wild you might find people referring to a function in the format `somePackage::some_fun()` to clarify they mean `some_fun()` from the package `somePackage`!
 
@@ -168,10 +178,10 @@ Unless you have already done so, install the following packages:
 pkg_install("tidyverse")
 ```
 
-`pak` should be a bit faster and depending on your operating system also more robust, and it brings a few features not relevant yet.
+`pak` should be a bit faster and depending on your operating system also more robust, and it brings a few features not relevant yet.  
+If you use a Linux distribution like Ubuntu, `pak` can save you a lot of annoyances.
 
 In any case, this might take a moment!
-
 
 ## Knowing Your Data
 
@@ -213,6 +223,7 @@ str(gapminder)
 
 Don't forget we can also refer to the documentation using `?gapminder` to learn about what each variable means!
 
+
 There is also something new there: A type of data we have not encountered before: The `factor`!
 `factors` are for _categorical data_, particularly the kind where we know beforehand how many different categories there are and what they are called.
 
@@ -225,6 +236,8 @@ fruit
 levels(fruit)
 ```
 
+We can set the `levels` of a factor manually or change them later.  
+A `factor` can have a level that does not appear on the data, but it will "know" that there is an extra category, which helps us keep an overvoew on what we expect!
 
 ```{r factor-example-2}
 fruit <- factor(
@@ -236,26 +249,35 @@ fruit
 levels(fruit)
 ```
 
+The `table()` function gives us a simple frequency table of the data, and since it expects there to be `"banana"`, it shows us a frequency of 0:
+
+```{r}
+table(fruit)
+```
+
 `factors` are like `characters` but with _additional information_ stored in them, and dealing with them can be a bit counter-intuitive.
 For now, we're happy with knowing that they exists and that they are useful for categorical data!
 
 In `gapminder`, there are two `factor` variables as we have seen using `str()`: `country` and `continent`.
 
-We can use `table()` to get a broad overview of what we are dealing with
+We can use the aforementioned `table()` to get a broad overview of what we are dealing with
 
 ```{r}
 table(gapminder$continent)
+
+table(gapminder$country)
 ```
 
 We will get a better overview later, but for now we'll practice the basics for a moment
 
 ### Your Turn
 
-Using the `gapminder` data, find out the following:
+Using the `gapminder` data, try to find out the following:
 
 1. How many different countries are in the dataset?
 2. For the country of _Mauritius_, what is the range of years we have data for?
 3. Which country has the longest life expectancy in any year after 2000?
+4. Select the variables `country`, `pop` and `lifeExp`
 
 
 ```{r gapminder-exploration-1}
