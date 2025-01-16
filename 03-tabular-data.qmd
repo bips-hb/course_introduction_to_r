@@ -93,6 +93,9 @@ iris
 
 They are built-in in the sense that they are part of the R installation - you can not accidentally delete them and you don't need to do anything special to access them, which makes them the standard case for tutorials and examples --- and of course also a little boring!
 
+We can also install packages that provide additional data, and many packages that provide some sort of statistical or visualization functionality often include toy datasets to illusrate their use.  
+We'll see examples of that later as well!
+
 ### Reading External Data
 
 Most often you will have some external source of data you then want to work with in R, and there are many different ways to do that. One of the simplest is to have the data available locally in a well-known and well-supported format like CSV, which can usually be created easily from software like Excel or database systems.
@@ -112,13 +115,15 @@ For future reference though:
 -   Ensure to glance at the relevant documentation, e.g. for `?read.csv`, if you run into errors or unexpected behavior
 -   Refer to [this chapter in R4DS](https://r4ds.hadley.nz/import)
 
+We will read in more data later!
+
 ## Excursion: Packages
 
 Before we move on, it's time to take a look at this open source ecosystem we mentioned in the beginning. In R, this mostly means we can install *packages*. A package is a collection of functions and sometimes other objects which we can use for additional capabilities, and lets us benefit from other people's work such that we don't have to reinvent the wheel every time we do an analysis.
 
 We can install packages using either RStudio's "Packages" pane to the right, or we can use R functions directly.
 
-For example, there is a package called "readxl" which allows us to read data in SPSS or SAS formats into R, and we can install it like this:
+For example, there is a package called `"readxl"` which allows us to read data in SPSS or SAS formats into R, and we can install it like this:
 
 ```{r install-package, eval=FALSE}
 install.packages("readxl")
@@ -145,7 +150,7 @@ example_df <- read_excel("data-raw/example.xlsx")
 ```
 
 Here, the function `read_excel()` is provided by the package `readxl` and only available when that package is installed and loaded!
-Am error message like
+An error message like
 
 ```
 could not find function "read_excel"
@@ -170,8 +175,10 @@ Unless you have already done so, install the following packages:
 
 -   "tidyverse"
 -   "gapminder"
+-   "readr"
 -   "gtsummary"
 -   "ggstatsplot"
+-   "ggthemes"
 
 **Optionally** you can install the package `pak` first, and then install the packages above using `pkg_install()`:
 

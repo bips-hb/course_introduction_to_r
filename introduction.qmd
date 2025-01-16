@@ -10,6 +10,14 @@ format:
 editor: source
 ---
 
+```{r}
+library(ggstatsplot)
+library(gtsummary)
+library(ggplot2)
+library(dplyr)
+library(gapminder)
+```
+
 ## Welcome to the workshop!
 
 -   **Time**: 5 days, 1pm - 5pm
@@ -25,36 +33,94 @@ editor: source
 ## Who are we?
 
 - We are Lukas and Luca
-- (We are not trying to confuse you)
+  (We are not trying to confuse you)
 
 
-- PhD students at BIPS (*Leibniz Institute for Prevention Research and Epidemiology - BIPS*, Bremen, Germany)
+- PhD students at BIPS 
+  (*Leibniz Institute for Prevention Research and Epidemiology - BIPS*, Bremen, Germany)
 - Research areas: Machine learning, causal inference, general (bio)statistics
 
 
 ## What are R and RStudio?
 
 -   **R** is a programming language used either
--   *interactively* in a **console**,
--   or non-interactively by executing *scripts*
-
-. . .
+    -   *interactively* in a **console**, like a calculator
+    -   or non-interactively by executing *scripts* 
 
 -   **RStudio** is a popular *integrated development environment* (IDE) for R
--   If R is a **horse**, RStudio is a *saddle*
--   -\> You can use R "alone", but it's much more comfortable with RStudio!
+    -   If R is a *horse*, RStudio is a *saddle*
+    -   You can use R "alone", but it's much more comfortable with RStudio!
 
 ## Why is R Userful?
 
 -   Powerful **statistical analysis** tools
 -   Publication-ready **data visualization**
--   Huge **open-source ecosystem**!
+-   Huge **open-source ecosystem** with an active and supportive community
+-   Can be used as glorified calculator or for cutting edge statistics
 
-. . .
+## Also: Nice plots
+
+```{r}
+library(ggplot2)
+
+gapminder |>
+  dplyr::filter(continent != "Oceania") |>
+  ggplot(aes(x = year, y = lifeExp, group = country, color = country)) +
+  facet_wrap(vars(continent)) +
+  geom_line(show.legend = FALSE) +
+  scale_color_manual(values = country_colors) +
+  labs(
+    title = "Life Expectancy 1952 – 2007",
+    subtitle = "Data via Gapminder",
+    x = "Year", y = "Life Expectancy (years)",
+    caption = "Not pictured: Oceania"
+  ) +
+  theme_minimal(base_size = 14)
+```
+
+## Including statistics
 
 ```{r ggbetween}
-ggstatsplot::ggbetweenstats(gtsummary::trial, x = trt, y = marker, xlab = "Treatment", ylab = "Tumor Marker (ng/mL)")
+trial |>
+  ggbetweenstats(
+    x = trt, y = marker, 
+    xlab = "Treatment", ylab = "Marker Level (Ng/mL)", 
+    title = "Tumor Marker in Chemotherapy Treatment",
+    bf.message = FALSE,
+    caption = "Simulated data"
+  )
+
 ```
+
+## Or Tables
+
+```{r}
+trial |>
+  tbl_summary(
+    by = trt,
+    statistic = list(
+      all_continuous() ~ "{mean} ({sd})",
+      all_categorical() ~ "{n} / {N} ({p}%)"
+    ),
+    digits = all_continuous() ~ 2,
+    label = grade ~ "Tumor Grade",
+    missing_text = "(Missing)"
+  )
+```
+
+## And Tables with Statistics
+
+```{r}
+trial |>
+  tbl_cross(
+    row = stage,
+    col = trt,
+    percent = "cell", 
+    label = list(trt = "Treatment", stage = "Tumor Stage")
+  ) |>
+  add_p()
+```
+
 
 ## Ecosystem
 

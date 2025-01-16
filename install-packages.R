@@ -9,5 +9,6 @@ pak::pak(c(
   "ggstatsplot",
   "rmarkdown",
   "readxl",
-  "haven"
+  "haven",
+  "readr"
 ))

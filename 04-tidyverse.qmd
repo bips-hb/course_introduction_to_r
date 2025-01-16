@@ -129,9 +129,9 @@ This would still do the same, but would be much less readable.
 
 All verbs take a `data.frame` (or `tibble`, which are almost the same thing) as their first argument, and the most important ones are:
 
--   `select`: Selects variables (**columns**) of the dataset (wihtout quoting them with `" "`)
--   `filter`: Filters the dataset to only the **rows** matching the condition(s) inside
--   `arrange`: **Sorts** the dataset by a variable like `pop`, optionally in decreasing order by using `desc()` inside.
+-   `select()`: Selects variables (**columns**) of the dataset (wihtout quoting them with `" "`)
+-   `filter()`: Filters the dataset to only the **rows** matching the condition(s) inside
+-   `arrange()`: **Sorts** the dataset by a variable like `pop`, optionally in decreasing order by using `desc()` inside.
 
 We start with `select()`, which is fairly self-explanatory and corresponds to using `[ ]` with column names or indices as we've seen before
 
@@ -190,7 +190,6 @@ gapminder |>
 ```
 
 
-
 ### Your turn
 
 1. Select the country and life expectency variables for the year 1952
@@ -203,9 +202,15 @@ gapminder |>
 
 ## Common Verbs (II)
 
--   `mutate`: Creates a **new variables**, e.g. create `pop_m` as the variable `pop` divided by 1,000,000
--   `group_by`: Declares the dataset to be **grouped** by the values of variable like `continent` -- we will see examples next!
--   `summarize`: Often used after `group_by`, this **summarizes** the dataset by calculating something for each group declared by `group_by()`
+So far we have only selected specific subsets of our data, but now we want to actually _do_ something!
+For that, we have two main options: 
+
+1. Creating a new variable
+2. Calculating some summary statistic like the mean or median
+
+-   `mutate()`: Creates a **new variables**, e.g. create `pop_m` as the variable `pop` divided by 1,000,000
+-   `summarize()`: Often used toger with `group_by()`, this **summarizes** the dataset by calculating something for each group declared by `group_by()`
+-   `group_by()`: Declares the dataset to be **grouped** by the values of variable like `continent` -- we will see examples next!
 
 
 ```{r}
@@ -270,4 +275,29 @@ gapminder |>
   filter(year == 1997, continent == "Asia") |>
   ggplot(aes(x = lifeExp, y = gdpPercap)) +
   geom_point()
+```
+
+
+
+```{r}
+gapminder |>
+  filter(year %in% c(1952, 2007)) |>
+  select(country, continent, year, lifeExp) |>
+  pivot_wider(
+    names_from = year,
+    values_from = lifeExp, 
+    names_prefix = "lifeExp_"
+  ) |>
+  mutate(
+    life_exp_improvement = lifeExp_2007 - lifeExp_1952
+  ) |>
+  ggplot(aes(x = reorder(continent, -life_exp_improvement), y = life_exp_improvement, fill = continent)) +
+  geom_boxplot(show.legend = FALSE) +
+  scale_fill_brewer(palette = "Dark2") +
+  labs(
+    title = "Life Expectancy Improvement 1952-2007",
+    x = "Continent",
+    y = "Life Expectancy Change (years)"
+  ) +
+  theme_minimal()
 ```
