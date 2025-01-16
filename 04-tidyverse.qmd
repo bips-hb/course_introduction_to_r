@@ -189,6 +189,18 @@ gapminder |>
   filter(year == 1997, country == "Iceland")
 ```
 
+As a more advanced example, we can use `select()`-helper functions to select variables that start with a certain pattern or contain a certain word:
+
+```{r}
+gapminder |>
+  select(starts_with("c"))
+
+gapminder |>
+  select(contains("gdp"))
+
+gapminder |>
+  select(ends_with("p"))
+```
 
 ### Your turn
 
@@ -243,7 +255,62 @@ gapminder |>
 ### Your turn
 
 1. Explain in words what has happened in the previous code chunk.
-2. 
+2. What happens if you use `summarize()` without `group_by()`?
+3. Use `summarise()` and the helpful `n_distinct()` to calculate the number of countries per continent
+4. Create a new variable `gdpPercap_m` as the variable gdpPercap divided by 1 Million and rounded to 2 decimal places
+
+```{r tidyverse-mutate-summarize}
+
+```
+
+## Other Useful Verbs
+
+### Changing Shapes
+
+A more advanced topic but often needed for data manipulation is reshaping your data using the `tidyr` package.
+
+This might be best explained by example.  
+Say we want to calculate the difference in life expectancy between 1952 and 2007 for each country and continent, but using the verbs we've seen so far we can't do that with a simple `mutate()`.
+We can instead use `pivot_wider()` which is a function that takes a "long" dataset and pivots it into a "wide" dataset:
+
+```{r}
+gapminder |>
+  filter(year %in% c(1952, 2007)) |>
+  pivot_wider(
+    id_cols = c(country, continent), 
+    names_from = year, 
+    values_from = lifeExp,
+    names_prefix = "lifeExp_"
+  )
+```
+
+### Combining Things
+
+Sometimes it's useful to combined datasets by rows or columns:
+
+```{r}
+gapminder52 <- gapminder |>
+  filter(year == 1952)
+
+gapminder07 <- gapminder |>
+  filter(year == 2007)
+
+bind_rows(gapminder52, gapminder07)
+```
+
+```{r}
+gapminder52 <- gapminder |>
+  filter(year == 1952) |>
+  rename(lifeExp_1952 = lifeExp)
+
+gapminder07 <- gapminder |>
+  filter(year == 2007) |>
+  select(lifeExp) |>
+  rename(lifeExp_2007 = lifeExp)
+
+bind_cols(gapminder52, gapminder07) |>
+  select(starts_with("lifeExp"))
+```
 
 ## Introducing: `ggplot2`
 
@@ -256,48 +323,36 @@ We can create the most common types of plots with relative ease, including
 - Boxplots
 - Barcharts (horizontal or vertical)
 
+A ggplot is made up of **layers**, which are added to the plot with `+` and can be modified with `+` as well.  
+Think of building a ggplot as stacking layers on top of each other, and modifying the layers as you go.
+
 Let's start with an example of a scatterplot:
+
+```{r}
+ggplot(gapminder)
+```
+
+This doesn't really do anything yet -- it's the _empty_ layer. But at least we specific a dataset.
+
+```{r}
+ggplot(gapminder, mapping = aes(x = lifeExp, y = gdpPercap))
+```
+
+Here we used `aes()` to delcare a _mapping_ or _aesthetics_ between the variables `lifeExp` to the x-axis and `gdpPercap` to the y-axis.
+This is the crucial step to creating a plot!
+But we have not decided what the _geometric_ object is going to be, which is the `geom_` part of the plot.
 
 ```{r}
 ggplot(gapminder, aes(x = lifeExp, y = gdpPercap)) +
   geom_point()
 ```
 
-```{r}
-gapminder_97 <- filter(gapminder, year == 1997)
-
-ggplot(gapminder_97, aes(x = lifeExp, y = gdpPercap)) +
-  geom_point()
-```
+This already looks like a scatterplot!  
+We might want to adjust the point size, color, etc. -- that's the job of the `geom`!
 
 ```{r}
-gapminder |>
-  filter(year == 1997, continent == "Asia") |>
-  ggplot(aes(x = lifeExp, y = gdpPercap)) +
-  geom_point()
+ggplot(gapminder, aes(x = lifeExp, y = gdpPercap)) +
+  geom_point(size = 3, color = "blue", alpha = 0.25)
 ```
 
 
-
-```{r}
-gapminder |>
-  filter(year %in% c(1952, 2007)) |>
-  select(country, continent, year, lifeExp) |>
-  pivot_wider(
-    names_from = year,
-    values_from = lifeExp, 
-    names_prefix = "lifeExp_"
-  ) |>
-  mutate(
-    life_exp_improvement = lifeExp_2007 - lifeExp_1952
-  ) |>
-  ggplot(aes(x = reorder(continent, -life_exp_improvement), y = life_exp_improvement, fill = continent)) +
-  geom_boxplot(show.legend = FALSE) +
-  scale_fill_brewer(palette = "Dark2") +
-  labs(
-    title = "Life Expectancy Improvement 1952-2007",
-    x = "Continent",
-    y = "Life Expectancy Change (years)"
-  ) +
-  theme_minimal()
-```
