@@ -79,7 +79,7 @@ example_df[5, 1, drop = FALSE]
 This is a "good to know and easy to forget" bit of information.
 Soon we will introduce mechanisms to make working with tabular data a bit more intuitive, but since you will most likely encounter this type of code in the wild, we'll practice it a little soon.
 
-## Getting Data
+## External Data
 
 ### Built-in
 
@@ -96,16 +96,57 @@ They are built-in in the sense that they are part of the R installation - you ca
 We can also install packages that provide additional data, and many packages that provide some sort of statistical or visualization functionality often include toy datasets to illusrate their use.  
 We'll see examples of that later as well!
 
-### Reading External Data
+### Reading and Writing Data from/to Files
 
-Most often you will have some external source of data you then want to work with in R, and there are many different ways to do that. One of the simplest is to have the data available locally in a well-known and well-supported format like CSV, which can usually be created easily from software like Excel or database systems.
+A usual part of the workflow is to import data, clean it up, modify it in some way, and then storing it as a file for later use or to share it with collaborators.
 
-In R, there is a built-in function `read.csv()` that does the job well enough:
+There are many formats we could use, and they vary in how simple they are to use within R, how easy it is to read them with other software, and how certain you want to be that people are going to be able to read the data in 30 years.
 
-```{r read-csv}
-example_df <- read.csv("data-raw/example.csv")
-example_df
+For simplicity we'll focus on two kinds of formats: R's built-in format `RDS`, and plain-text delimited formats like CSV and TSV.
+
+#### RDS
+
+RDS has the benefit of being able to losslessly store any kidn of R objects, which means that whatever you store as a file on your computer you'll most likely be able to just read into R again and use it as if nothing happened.  
+This is why RDS is the most popular for "within R" workflow where you want to store intermediate results for example, or cleaned datasets you want to use later for analysis in a different R project.
+
+We can store and restore data to RDS like this, using the `example_df` and the `data` directory in this project:
+
+```{r rds-store}
+saveRDS(example_df, file = "data/example.rds")
 ```
+
+```{r rds-read}
+example_rds <- readRDS(file = "data/example.rds")
+```
+
+We can check if the two are identical:
+
+```{r}
+identical(example_df, example_rds)
+```
+
+### CSV
+
+Comma separated values (CSV) are maybe the most common way to share data that's not large enough to require database or strong compression.
+If you want to share data in a way that others can import it into Excel without a big headache, this is probably the way to go!  
+Also if you want to make sure that your great-great-great-grandchildren are still able to read your data without any special software.
+
+It's the lowest common denominator in many ways, and it can be very annoying to deal with.
+
+In the simplest case we can read and write CSVs with `read.csv()`
+
+```{r csv-write}
+write.csv(example_df, file = "data/example.csv")
+```
+
+```{r csv-read}
+example_csv <- read.csv(file = "data/example.csv")
+```
+
+Note that `?read.csv` and `?write.csv` show a few option that will be useful at some point, like `sep`.
+By default, we write and read comma-delimited files, but we could also do `sep = ";"` to use `;` as a separating character!  
+When you try to read data with Excel for example, then using `;` might make things easier.
+
 
 When it comes to reading external data, tons of things can go wrong and for now, we just assume that it went okay.
 
@@ -113,9 +154,18 @@ For future reference though:
 
 -   When in doubt, google around for how to best read the given data into R
 -   Ensure to glance at the relevant documentation, e.g. for `?read.csv`, if you run into errors or unexpected behavior
--   Refer to [this chapter in R4DS](https://r4ds.hadley.nz/import)
+-   Once you're used to installing packages, the `readr` package might be of interest here
+-   Refer to [this chapter in R4DS](https://r4ds.hadley.nz/import) for more information and examples!
 
-We will read in more data later!
+
+::: {.callout-tip}
+To keep a project organized, it's good practice to 
+
+- Store original, raw data in a dedicated directory like `data-raw` and **never modify it**!
+- Read it, clean it, and store a clean version of your data in `data`
+
+That way, you should always your original data, your final data, and most importantly: Reproducible R code you can share with others that explains how to get from point A to point B!
+:::
 
 ## Excursion: Packages
 
@@ -123,7 +173,7 @@ Before we move on, it's time to take a look at this open source ecosystem we men
 
 We can install packages using either RStudio's "Packages" pane to the right, or we can use R functions directly.
 
-For example, there is a package called `"readxl"` which allows us to read data in SPSS or SAS formats into R, and we can install it like this:
+For example, there is a package called `"readxl"` which allows us to Excel files (`.xlsx`), and we can install it like this:
 
 ```{r install-package, eval=FALSE}
 install.packages("readxl")
@@ -170,17 +220,18 @@ We won't do that here yet, but in the wild you might find people referring to a 
 ### Your Turn
 
 We will now move on to using more packages, which of course first need installation.
-
 Unless you have already done so, install the following packages:
 
 -   "tidyverse"
 -   "gapminder"
--   "readr"
 -   "gtsummary"
 -   "ggstatsplot"
--   "ggthemes"
 
-**Optionally** you can install the package `pak` first, and then install the packages above using `pkg_install()`:
+Optional:
+-   "ggthemes"
+-   "readr"
+
+**Alternatively** you can install the package `pak` first, and then install the packages above using `pkg_install()`:
 
 ```{r install-pak, eval=FALSE}
 pkg_install("tidyverse")
@@ -280,18 +331,14 @@ We will get a better overview later, but for now we'll practice the basics for a
 Using the `gapminder` data, try to find out the following:
 
 1. Select the variables `country`, `pop` and `lifeExp`
-2. Fitler the dataset to the year 2007
-3. How many different countries are in the dataset?
-4. For the country of _Mauritius_, what is the population in the year 1997?
-5. Which country has the longest life expectancy in any year after 2000?
+2. Filter the dataset to the year 2007
+3. For the country of _Mauritius_, what is the population in the year 1997?
+4. How many different countries are in the dataset?
 
 
-```{r gapminder-exploration-1}
+```{r gapminder-exploration-df}
 
 ```
 
 
-Hints:
-
-- The function `unique()` is similar to `levels()` for factors, but more general -- both can be combined with `length()`!
-- Sometimes a function does exactly what it sounds like it does, like `sort()`
+Hint: The function `unique()` is similar to `levels()` for factors, but more general -- both can be combined with `length()`!

@@ -49,7 +49,9 @@ age
 height_cm <- 182
 height_m <- height_cm / 100
 
-
+# We can also manually delete variables
+rm(height_cm)
+height_cm
 
 
 
