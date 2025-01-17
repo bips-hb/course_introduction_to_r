@@ -156,6 +156,7 @@ For future reference though:
 -   Ensure to glance at the relevant documentation, e.g. for `?read.csv`, if you run into errors or unexpected behavior
 -   Once you're used to installing packages, the `readr` package might be of interest here
 -   Refer to [this chapter in R4DS](https://r4ds.hadley.nz/import) for more information and examples!
+-   The package `haven` has functions to read and write data in formats used by SAS and SPSS
 
 
 ::: {.callout-tip}
@@ -225,6 +226,7 @@ Unless you have already done so, install the following packages:
 -   "tidyverse"
 -   "gapminder"
 -   "gtsummary"
+-   "table1"
 -   "ggstatsplot"
 
 Optional:

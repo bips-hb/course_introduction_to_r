@@ -10,5 +10,7 @@ pak::pak(c(
   "rmarkdown",
   "readxl",
   "haven",
-  "readr"
+  "readr",
+  "table1",
+  "ggsurvfit"
 ))
