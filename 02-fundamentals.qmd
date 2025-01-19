@@ -108,8 +108,8 @@ weight_kg <- c(75, 64, 70, 85, 78)
 
 ### Your turn
 
--   Using the variables above, calculate the BMI for each patient.
--   Store the result in a variable called `bmi`. Keep in mind you can use parentheses to group calculations like in a calculator, e.g. `(x + 4) * y`
+1.   Using the variables above, calculate the BMI for each patient.
+2.   Store the result in a variable called `bmi`. Keep in mind you can use parentheses to group calculations like in a calculator, e.g. `(x + 4) * y`
 
 ```{r bmi-vector-calc}
 
@@ -281,7 +281,7 @@ We really want the mean of the age here, but we don't want to exclude an entire 
 We can check R's built-in **help system** by adding a `?` in front of any function name (without parentheses).
 Try it out using the `mean` function!:
 
-```{r}
+```{r, eval=FALSE}
 ?mean
 ```
 

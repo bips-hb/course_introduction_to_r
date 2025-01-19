@@ -25,14 +25,14 @@ library(tidyverse)
 You'll see a lot of information there, and that's nothing to worry about.
 What happened here is the following:
 
-1.  The `tidyverse` package's main purpose is to load *other* packages, like `dplyr`, `ggplot2`, `tibble`, ... -\> These are the *actual* tidyverse packages that provide the functionality we want!
+1.  The `tidyverse` package's main purpose is to load *other* packages, like `dplyr`, `ggplot2`, `tibble`, ... -> These are the *actual* tidyverse packages that provide the functionality we want!
 2.  It warns you about **conflicting function names**, like `filter` and `lag`. There are built-in functions in R of the same name that do very different things than they do in the tidyverse, and for the most part that is not a problem **unless** you try to use the function `filter` from the `dplyr` package but forgot to load `dplyr` beforehand!
 
 ## Tidyverse Basics: Pipes and Verbs
 
-We start by loading the `gapmidner` package again for its dataset, just like we did before, but now we can `glimpse` it rather than `str` it:
+We start by loading the `gapminder` package again for its dataset, just like we did before, but now we can `glimpse` it rather than `str` it:
 
-```{r}
+```{r load-gapminder}
 library(gapminder)
 
 glimpse(gapminder)
@@ -42,16 +42,16 @@ Remember how it was somewhat awkward to select specific rows and columns from th
 
 For example, here is "country, life expectancy and population for all asian countries in 1967" in *base R* syntax:
 
-```{r}
+```{r base-filter-select}
 gapminder[gapminder$continent == "Asia" & gapminder$year == 1967, c("country", "lifeExp", "pop")]
 ```
 
 In the `tidyverse`, or specifically `dplyr` syntax, we would write it like this:
 
-```{r}
+```{r tidy-filter-select}
 gapminder |>
-  select(country, lifeExp, pop) |>
-  filter(continent == "Asia" & year == 1967)
+  filter(continent == "Asia" & year == 1967) |>
+  select(country, lifeExp, pop)
 ```
 
 What happened here?
@@ -403,7 +403,7 @@ As a general tip, it's often useful to use tidyverse verbs as "pre-processing" b
 We have seen an example scatterplot before, but given the data at hand it's probably more useful to focus on a specific year at a time, which is easiest to do with a `filter()` step beforehand
 
 ```{r}
-gapminder |>
+p <- gapminder |>
   filter(year == 2007) |>
   ggplot(aes(x = lifeExp, y = gdpPercap)) +
   geom_point()
@@ -414,7 +414,23 @@ If you get confused between using `|>` and `+`, know that you are not alone!
 Luckily, the error messages are informative.
 :::
 
-Beware that in some cases, a scatterplot is maybe not well suited, for example if the `x`-variable is _technically_ numeric but _effectively_ categorical, like `year` in this case:
+
+A more advanced examples would be to add a linear regression line, but in this case we cann already see that a linear fit is not appropriate here. We can still add a regression line though, by adding new layer:
+
+
+```{r}
+p +
+  geom_smooth()
+```
+
+`geom_smooth()` will add a general trendline, which could be a linear model or a loess curve or a GAM -- if you want to explicitly add a linear trendline, use `geom_smooth(method = "lm")`, but beware that this is not always approriate!
+
+```{r}
+p +
+  geom_smooth(method = "lm")
+```
+
+In some cases, a scatterplot is maybe not well suited, for example if the `x`-variable is _technically_ numeric but _effectively_ categorical, like `year` in this case:
 
 ```{r}
 gapminder |>
@@ -422,9 +438,11 @@ gapminder |>
   geom_point()
 ```
 
+That's where boxplots are useful!
+
+
 #### Boxplots
 
-That's where boxplots are useful!
 So a boxplot where each year gets its own box should be straight forward, yes?
 
 ```{r}
@@ -582,3 +600,74 @@ Hints:
 - The function `color()` lists all color names R knows, otherwise you can use RGB codes like `#CBDFBD` if you google "RGB color picker" you'll find a lot of examples!
 - Reordering the continents is as easy as using `reorder()`!
 
+
+## Advanced `ggplot2`
+
+
+
+## "But isn't there an easier way?"
+
+
+Yes, there is!  
+`ggplot2` is all about the building blocks, and for many common scenarios it's cumbersome to always stack the same components on top of each other.  
+Luckily there are _tons_ of R packages either extending ggplot2 or providing wrappers for common needs.  
+
+One of those wrapper packages is [`ggstatsplot`](https://indrajeetpatil.github.io/ggstatsplot), which you should have installed earlier in the course but which we haven't used yet.
+
+As the title suggest this package is primarily aimed towards statistical comparisons, but it can also be used for exploratory anayses.
+
+```{r}
+library(ggstatsplot)
+```
+
+
+```{r}
+gapminder |>
+  filter(year == 2007) |>
+  ggbetweenstats(
+    x = continent, y = lifeExp,
+    xlab = "Continent",
+    ylab = "Life Expectancy (years)",
+    title = "Life Expectancy by Continent (2007)"
+  )
+```
+
+We can disable some of the statistical information by using `bf.message = FALSE` and `results.subtitle = FALSE`:
+
+```{r}
+gapminder |>
+  filter(year == 2007) |>
+  ggbetweenstats(
+    x = continent, y = lifeExp,
+    xlab = "Continent",
+    ylab = "Life Expectancy (years)",
+    bf.message = FALSE, 
+    results.subtitle = FALSE,
+    title = "Life Expectancy by Continent (2007)"
+  )
+```
+
+Recreating something like this with `ggplot2` is a bit of a chore, but `ggstatsplot` makes it a lot easier!
+Here's an incomplete attempt of recreating the above plot:
+
+```{r}
+gapminder |>
+  filter(year == 2007) |>
+    ggplot(aes(x = continent, y = lifeExp)) +
+    geom_violin() +
+    geom_boxplot(alpha = .1, width = 0.4) +
+    geom_point(
+      aes(fill = continent),
+      shape = 21, size = 3, stroke = 0, alpha = .4,
+      position = position_jitter(width = 0.1)
+    ) +
+    stat_summary(fun = mean, geom = "point", shape = 21, size = 3, color = "black", fill = "darkred") +
+    labs(
+      title = "Life Expectancy by Continent (2007)",
+      subtitle = "Data via Gapminder",
+      x = "Continent",
+      y = "Life Expectancy (years)"
+    ) +
+    theme_minimal(base_size = 14) +
+    theme(legend.position = "none")
+```
