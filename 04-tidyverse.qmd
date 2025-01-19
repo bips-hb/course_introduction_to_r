@@ -1,7 +1,9 @@
 ---
 title: "4: The Tidyverse"
-format: html
-editor: visual
+format: 
+  html:
+    toc: true
+editor: source
 ---
 
 The [**Tidyverse**](https://www.tidyverse.org/) is a collection of R packages created and maintained by the same group of people, largely from the same company that also created RStudio: Posit!
@@ -25,8 +27,12 @@ library(tidyverse)
 You'll see a lot of information there, and that's nothing to worry about.
 What happened here is the following:
 
-1.  The `tidyverse` package's main purpose is to load *other* packages, like `dplyr`, `ggplot2`, `tibble`, ... -> These are the *actual* tidyverse packages that provide the functionality we want!
+1.  The `tidyverse` package's main purpose is to load *other* packages, like `dplyr`, `ggplot2`, `tidyr`, ... -> These are the *actual* tidyverse packages that provide the functionality we want!
 2.  It warns you about **conflicting function names**, like `filter` and `lag`. There are built-in functions in R of the same name that do very different things than they do in the tidyverse, and for the most part that is not a problem **unless** you try to use the function `filter` from the `dplyr` package but forgot to load `dplyr` beforehand!
+
+Note that in the tidyverse, the `tibble` enhances the `data.frame`!  
+Tibbles are simialr to data.frames, but they look nice and avoid some potentially confusing issues.  
+For now we don't need to know more, but fur future reference you should not worry when you encounter a `tibble`!
 
 ## Tidyverse Basics: Pipes and Verbs
 
@@ -167,7 +173,7 @@ gapminder |>
 But `desc()` has the benefit of also working for `character` (sorted alphabetically) or `factor` variables (sorted by their `levels`), which makes `desc()` applicable in more cases.
 
 ```{r}
-gapminder |>
+gapminder97 <- gapminder |>
   filter(year == 1997) |>
   arrange(pop)
 ```

@@ -13,3 +13,4 @@ attic/
 _site
 _quarto.yml
 Makefile
+.Rprofile

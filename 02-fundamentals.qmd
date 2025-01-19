@@ -1,9 +1,9 @@
 ---
 title: "2: R Fundamentals"
-format: html
+format: 
+  html:
+    toc: true
 editor: source
-editor_options: 
-  chunk_output_type: console
 ---
 
 ## Hello There!

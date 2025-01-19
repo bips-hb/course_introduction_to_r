@@ -25,8 +25,11 @@ pi                    # The value of pi up to some threshold
 # If the end of the line is reached, R will automatically print the result
 # but if there is something missing, R will wait for the end
 # If you get stuck, abort the current command by pressing Esc or Ctrl + C
+# Also beware of unclosed brackets!
 1 +
+
   2
+
 
 # We can do math on numbers but not on text!
 # (we will look at text more later!)

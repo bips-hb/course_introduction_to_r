@@ -1,7 +1,9 @@
 ---
 title: "3: Tabular Data"
-format: html
-editor: visual
+format: 
+  html:
+    toc: true
+editor: source
 ---
 
 So far we have used individual vectors as data, but of course it is not particularly convenient to work with real data like that. Whether your data originally is stored in an Excel file or some sort of database system, it is usually stored in a *tabular* format, ideally with two key properties:
@@ -85,7 +87,7 @@ Soon we will introduce mechanisms to make working with tabular data a bit more i
 
 R comes with some built-in datasets that are "just there":
 
-```{r df-builtin}
+```{r df-builtin, eval=FALSE}
 sleep
 mtcars
 iris

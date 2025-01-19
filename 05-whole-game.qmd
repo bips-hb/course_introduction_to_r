@@ -1,6 +1,8 @@
 ---
 title: "5: The Whole Game"
-format: html
+format: 
+  html:
+    toc: true
 editor: source
 ---
 
@@ -54,6 +56,9 @@ Here is an basic data dictionary for the `chemo` dataset:
     - Also visualize the variables appropriately and note anything unusual
 3. Give counts and proportions of `response` and `death`
 
+```{r first-look}
+
+```
 
 ## Data Cleaning
 
@@ -65,10 +70,19 @@ This can be for cosmetic reasons, like renaming variables or recoding variables 
 1. Both `age` and `marker` contain missing values as you should have seen earlier. Substitute them with the median value of each variable.
 This is a simple imputation technique that's not good enough for a clinical trial, but good enough for our purposes!
 
+
+```{r plausibility-1}
+
+```
+
+
 2. A histogram of `marker` looks odd. There appears to be a strong outlier, maybe more?
     a. For positive outliers we can "clip" them to e.g. the 95% quantile of the data.
     b. Are there other implausible values? What could be done about them?
 
+```{r plausibility-2}
+
+```
 
 ### Cosmetics
 
@@ -83,6 +97,13 @@ Once the data is clean in the "looks plausible" sense, we can do some cosmetic c
     - Alternative: Try `cut()`, which might be harder to use but more compact
 3. Rename the `ttdeath` variable to `time` and the `death` variable to `status`
     - The verb for this is `rename()`!
+
+
+
+```{r cosmetics}
+
+```
+
 
 ### Don't Forget to Save
 

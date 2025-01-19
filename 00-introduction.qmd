@@ -32,13 +32,13 @@ library(gapminder)
 
 ## Who are we?
 
-- We are Lukas and Luca
-  (We are not trying to confuse you)
+- We are Lukas and Luca <br/>
+  <small>(We are not trying to confuse you)</small>
 
 
-- PhD students at BIPS 
-  (*Leibniz Institute for Prevention Research and Epidemiology - BIPS*, Bremen, Germany)
-- Research areas: Machine learning, causal inference, general (bio)statistics
+- PhD students at BIPS <br/>
+  <small*Leibniz Institute for Prevention Research and Epidemiology - BIPS*, Bremen, Germany</small>
+- Research areas: Machine learning, causal inference, in (bio)statistics and epidemiology
 
 
 ## What are R and RStudio?
@@ -50,6 +50,10 @@ library(gapminder)
 -   **RStudio** is a popular *integrated development environment* (IDE) for R
     -   If R is a *horse*, RStudio is a *saddle*
     -   You can use R "alone", but it's much more comfortable with RStudio!
+
+. . .
+
+N.B.: RStudio is not the only IDE out there! Others swear by VS Code or the new [Positron](https://positron.posit.co/) base on it!
 
 ## Why is R Userful?
 
@@ -108,20 +112,6 @@ trial |>
   )
 ```
 
-## And Tables with Statistics
-
-```{r}
-trial |>
-  tbl_cross(
-    row = stage,
-    col = trt,
-    percent = "cell", 
-    label = list(trt = "Treatment", stage = "Tumor Stage")
-  ) |>
-  add_p()
-```
-
-
 ## Ecosystem
 
 -   R is enhanced through *packages*
@@ -130,26 +120,24 @@ trial |>
 -   Thousands of packages by professionals, hobbyists, students
 -   Popular examples:
     -   `ggplot2` for data visualization
-    -   `dplyr`for data manipulation
+    -   `dplyr` for common data manipulation tasks
     -   Part of the `tidyverse` family of packages
 -   We will install some of these for the course!
 
 ## Outlook
 
-![The workflow model according to "R for Data Science (2e), Wickham et al."](assets/img/r4ds-model.png){fig-align="center" width="1000"}
+![The workflow according to "R for Data Science (2e), Wickham et al."](assets/img/r4ds-model.png){fig-align="center" width="1000"}
 
-. . .
-
-Here we focus on **the basics**
+We focus on **the basics** and ignore statistical modeling!
 
 ## Managing Expectations
 
-R is a programming *language*, so keep in mind that
+R is a programming *language*, so:
 
--   learning a language takes time!
--   you will need to memorize vocabulary
--   getting used to grammar can be frustrating
--   lots of practice is needed to become fluent
+-   Learning a language takes time!
+-   Need to memorize vocabulary
+-   Getting used to grammar can be frustrating
+-   Practice needed to become fluent
 
 . . .
 
@@ -158,6 +146,7 @@ R is a programming *language*, so keep in mind that
 ## Orientation: RStudio
 
 ![](assets/img/rstudio-example.png)
+
 
 ## Stay Organized
 
