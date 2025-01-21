@@ -38,7 +38,8 @@ The sections are:
 
 ## Prerequisites
 
-Ideally R and RStudio are already installed at the start of the course. See [these instructions](https://lukasburk.de/posts/install-r/) for example.
+Ideally R and RStudio are already installed at the start of the course.
+See [these instructions](https://lukasburk.de/posts/install-r/) for example.
 
 If a local setup is not feasible, consider using an online service such as [Posit Cloud](https://posit.cloud/) (see below).
 

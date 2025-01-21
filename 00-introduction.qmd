@@ -168,21 +168,21 @@ If not:
 -   If all fails use RStudio in the browser via <https://posit.cloud> (needs registration but can be used for free)
 :::
 
-## Get the Workshop Materials {.center}
+. . .
 
-::: spacer-2
+::: spacer-1
 :::
 
 Go to
 
-::: spacer-2
+::: spacer-1
 :::
 
 ::: big150
 `github.com/bips-hb/course_introduction_to_r`
 :::
 
-::: spacer-2
+::: spacer-1
 :::
 
 and scroll down to follow the instructions in the README!
