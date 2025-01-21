@@ -497,7 +497,7 @@ Remember to use the help with `?function` to learn more (or use Google, or ChatG
 
 -   `summary()` gives you a list of statistics for a vector (and also works on other types of objects we'll see later!)
 -   `table()` gives you a frequency table, or a simple 2x2 table if you supply two vectors
--   `quantile(..., probs = ...)` for qantiles at probabilities given as `probs`
+-   `quantile(..., probs = ...)` for quantiles at probabilities given as `probs`
 -   `mean()`, `median()` give you what you'd expect
 -   `var()` for variance and `sd()` for the standard deviation
 -   `min()` and `max()` for minimum and maximum of a vector, `range()` for both
