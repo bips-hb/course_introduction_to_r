@@ -99,14 +99,7 @@ x <- c(5, 5, 5, 5, 5, 5)
 x + c(-1, 1)
 ```
 
-Let's assume add more patient data:
-
-```{r patient-data}
-height_cm <- c(184, 174, 171, 179, 180)
-weight_kg <- c(75, 64, 70, 85, 78)
-```
-
-### Your turn (1)
+### Your turn: Creating vectors & variables
 
 1.  Create a vector containing the letters "A", "B", "C", "D".
 2.  Create a vector containing the decimal numbers 1.2, 4.7, 9.4.
@@ -132,7 +125,16 @@ z <- c(x, y)
 z <- c(1.2, 3.4, 3.6, 5.7)
 ```
 
-### Your turn (2)
+### Your turn: Working with variables
+
+Let's assume add more patient data:
+
+```{r patient-data}
+height_cm <- c(184, 174, 171, 179, 180)
+weight_kg <- c(75, 64, 70, 85, 78)
+```
+
+### 
 
 1.  Using the variables above, calculate the BMI for each patient.
 2.  Store the result in a variable called `bmi`. Keep in mind you can use parentheses to group calculations like in a calculator, e.g. `(x + 4) * y`
