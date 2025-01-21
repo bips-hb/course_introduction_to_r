@@ -106,10 +106,22 @@ height_cm <- c(184, 174, 171, 179, 180)
 weight_kg <- c(75, 64, 70, 85, 78)
 ```
 
-### Your turn
+### Your turn (1)
 
-1.   Using the variables above, calculate the BMI for each patient.
-2.   Store the result in a variable called `bmi`. Keep in mind you can use parentheses to group calculations like in a calculator, e.g. `(x + 4) * y`
+1.  Create a vector containing the letters "A", "B", "C", "D".
+2.  Create a vector containing the decimal numbers 1.2, 4.7, 9.4.
+3.  Create a vector containing the integers from 10 to 1 in descending order and without writing out the elements.
+4.  Create a vector containing a sequence from 10 to 40 in steps of 10, without writing out the elements. Using Google, can you find a function to achieve the same result?
+5.  Assign the vectors `(1.2, 3.4)` and `(3.6, 5.7)` to the variables `x` and `y`. Combine these into a single vector `z = (1.2, 3.4, 3.6, 5.7)` without writing out the individual elements / numbers.
+
+```{r vector-practice}
+
+```
+
+### Your turn (2)
+
+1.  Using the variables above, calculate the BMI for each patient.
+2.  Store the result in a variable called `bmi`. Keep in mind you can use parentheses to group calculations like in a calculator, e.g. `(x + 4) * y`
 
 ```{r bmi-vector-calc}
 
@@ -164,7 +176,6 @@ Hint: The mean is defined as the sum of the values divided by the number of entr
 
 ```
 
-
 ## Vector Types
 
 So far we have seen numeric values only, but there are other useful types we will need down the road, and maybe a detail that might be good to know.
@@ -177,8 +188,8 @@ In R, there are these basic types:
     -   `"hello"`, `"a"` and `""` (an empty string)
 -   Logical (also "boolean"):
     -   Either `TRUE` or `FALSE`
-    
-When we create a vector, it can only be of _one_ type!
+
+When we create a vector, it can only be of *one* type!
 
 ```{r type-mix}
 # Numeric vector
@@ -191,7 +202,8 @@ c(1, TRUE, FALSE, "a")
 ```
 
 **"Numeric"** is technically a class further separated into whole numbers (*integers*) and decimal numbers.
-The latter are referred to as "floating point numbers" and the type is called "*double*" for boring history-of-computing reasons. Usually a numeric vector in R is a double, unless explicitly denoted an integer.
+The latter are referred to as "floating point numbers" and the type is called "*double*" for boring history-of-computing reasons.
+Usually a numeric vector in R is a double, unless explicitly denoted an integer.
 You can check the difference with the function `typeof()`, e.g. `typeof(3)`
 
 The important bit is that they have upper and lower limits because computers can't store numbers with arbitrary precision:
@@ -216,7 +228,6 @@ typeof(3)
 typeof(3L)
 ```
 
-
 **Characters** are useful for text and categorical information, for example to denote regions of origin in a dataset:
 
 ```{r}
@@ -225,20 +236,18 @@ continents <- c("Europe", "North America", "East Asia")
 
 For **logicals** it's important to note that `TRUE` and `FALSE` are reserved words, so you can't use them as variable names.
 
-::: {.callout-note}
-
+::: callout-note
 Some `"character"`-related things to keep on the "I know where to look it up" pile:
 
-- `c("apples", "oranges")` is a *character vector* of length 2. You might encounter the notation `character(2)` to refer to this type and length
-- A character vector has a _length_ just like any other vector retrievable with `length(x)`
-- If you want to know the _number of characters_ in a character vector, use `nchar(x)`
-- `nchar(c("apples", "oranges"))` gives you the number of characters for each string!
-
+-   `c("apples", "oranges")` is a *character vector* of length 2. You might encounter the notation `character(2)` to refer to this type and length
+-   A character vector has a *length* just like any other vector retrievable with `length(x)`
+-   If you want to know the *number of characters* in a character vector, use `nchar(x)`
+-   `nchar(c("apples", "oranges"))` gives you the number of characters for each string!
 :::
 
 ### Changing Types
 
-In many cases we can change the type of a vector from one to another, but only if it is _meaningful_ to do so.  
+In many cases we can change the type of a vector from one to another, but only if it is *meaningful* to do so.
 
 For example, we can use `as.character()` to turn any numeric vector into a character vector and we will be able to convert it back with `as.numeric()`, but if we start with a character vector like `c("apples", "bananas")`, there's no meaningful way to convert it to a numeric vector!
 
@@ -250,9 +259,8 @@ as.numeric(c("apples", "bananas"))
 
 ### Your Turn
 
-1. Create vectors of the types integer, double, character and logical
-2. Experiment with the functions `as.numeric`, `as.integer`, `as.double`, `as.character`, `as.logical`
-
+1.  Create vectors of the types integer, double, character and logical
+2.  Experiment with the functions `as.numeric`, `as.integer`, `as.double`, `as.character`, `as.logical`
 
 ## Missing data
 
@@ -328,7 +336,6 @@ This is called *indexing* a vector and it's one of the most common operations!
 
 We will practice this later, but before we do...
 
-
 ### A Little Logic Crash Course
 
 We spoke of logical values before, and it's time to get to know them a little better!
@@ -336,11 +343,11 @@ We spoke of logical values before, and it's time to get to know them a little be
 One of the most common applications is in **comparisons**, i.e., is `x` greater, equal, or less than `y`?
 In R, we can do these comparisons using *logical operators*:
 
-- `x ==` **Equals** (two `=` signs without space in between)
-- `x !+` **Not Equal** (Exclamation point and `=` without space in between)
-- `x > y` and `x < y` **Greater** and **Less than** (left and right angle brackets)
-- `x >= y` and `x <= y` **Greater or equal** and **Less than or equal** (angle brackets with `=`)
-- `x %in% y` is `x` **in** `y`?
+-   `x ==` **Equals** (two `=` signs without space in between)
+-   `x !+` **Not Equal** (Exclamation point and `=` without space in between)
+-   `x > y` and `x < y` **Greater** and **Less than** (left and right angle brackets)
+-   `x >= y` and `x <= y` **Greater or equal** and **Less than or equal** (angle brackets with `=`)
+-   `x %in% y` is `x` **in** `y`?
 
 Any statement such as `x == y` or `a < b` results in a logical value: `TRUE` or `FALSE`.
 
@@ -357,8 +364,8 @@ weight_kg < 75
 
 These can be combined using
 
-- `&` **AND**: `a & b` is `TRUE` if and only if both `a` and `b` are `TRUE` and otherwise `FALSE`
-- `|` **OR**: `a | b` is `TRUE` if _either_ `a` _or_ `b` is `TRUE` and `FALSE` if both are `FALSE`
+-   `&` **AND**: `a & b` is `TRUE` if and only if both `a` and `b` are `TRUE` and otherwise `FALSE`
+-   `|` **OR**: `a | b` is `TRUE` if *either* `a` *or* `b` is `TRUE` and `FALSE` if both are `FALSE`
 
 One of the most common things to do in data analysis is to filter data based on logical comparisons, such as "patients with blood pressure over a certain threshold" or "patients who are male and older than 65".
 
@@ -377,9 +384,9 @@ This tells us the 6th element is the one with the value `101`,
 ### Vector Indexing
 
 Now we have all the tools we need to slice and dice our vectors!
-Because with the `x[<index>]` notation for vector subsetting (indexing), we can also use _logical_ values, which is very powerful!
+Because with the `x[<index>]` notation for vector subsetting (indexing), we can also use *logical* values, which is very powerful!
 
-if we use a logical vector for indexing, R will give us all the elements of the vector for which the index was` TRUE` and omit those that were `FALSE`:
+if we use a logical vector for indexing, R will give us all the elements of the vector for which the index was`TRUE` and omit those that were `FALSE`:
 
 ```{r indexing-logical}
 weight_kg <- c(75, 64, 71, 45, 85, 78, 101, 94, 62, 70, 52)
@@ -408,102 +415,97 @@ x[4] <- 20
 x
 ```
 
-
 ### Your turn
 
 Using the `weight_kg` variable above, subset it to find out...
 
-1. How many values are smaller than the mean weight?
-2. How many are between 30 and 70?
-3. How many are between the 20% and 75% quantile?
-4. If we define outliers as those outside the 10% and 90% quantile, do we find any outliers?
+1.  How many values are smaller than the mean weight?
+2.  How many are between 30 and 70?
+3.  How many are between the 20% and 75% quantile?
+4.  If we define outliers as those outside the 10% and 90% quantile, do we find any outliers?
 
 ```{r practice-vector-indexing}
 
 ```
 
-
-Another useful indexing function is `is.na()`, which tells you whether a value is `NA` or not.  
+Another useful indexing function is `is.na()`, which tells you whether a value is `NA` or not.\
 Remember the `age` variable before?
 
 ```{r}
 age <- c(30, 32, 38, 27, NA, 27, 29, NA, 30, 31)
 ```
 
-
-5. Find the index positions of the `NA` values 
-6. Replace the `NA` values with the mean age when missing values are ignored
-
+5.  Find the index positions of the `NA` values
+6.  Replace the `NA` values with the mean age when missing values are ignored
 
 ## Appendix: Useful Functions for Vectors
 
 Like with every language, there is always a certain set of vocabulary you'll just have to learn and remember.
 The next best thing is of course knowing where to look them up.
 
-In that regard, here is a list of common function which might come in handy at some point!  
+In that regard, here is a list of common function which might come in handy at some point!\
 Remember to use the help with `?function` to learn more (or use Google, or ChatGPT, or whatever works!)
 
-
-- `c()` combines values into vectors. Can also combine multiple vectors into one!
-- `round()` to round values to some number of digits.
-- `length()` for the number of elements
-- `unique()` removes any duplicates
-    - `anyDuplicated` tells you if there are duplicates in the first place
+-   `c()` combines values into vectors. Can also combine multiple vectors into one!
+-   `round()` to round values to some number of digits.
+-   `length()` for the number of elements
+-   `unique()` removes any duplicates
+    -   `anyDuplicated` tells you if there are duplicates in the first place
 
 ### Types
 
-- `as.character()`, `as.numeric()`, `as.integer()` and `as.logical()` convert types
-- `is.character()`, `is.numeric()`, `is.integer()` and `is.logical()` _check_ types
-- `class()` and `typeof()` tell you what the vector is (the details are technical and not too important for now)
+-   `as.character()`, `as.numeric()`, `as.integer()` and `as.logical()` convert types
+-   `is.character()`, `is.numeric()`, `is.integer()` and `is.logical()` *check* types
+-   `class()` and `typeof()` tell you what the vector is (the details are technical and not too important for now)
 
 ## Math Operators
 
-- `+`, `-` for addition and subtraction
-- `*`, `/` for multiplication and division
-- `2^6`, `log(64, base = 2)` for exponentiation and logarithms
-- `%%` modulo, i.e. division with rest
+-   `+`, `-` for addition and subtraction
+-   `*`, `/` for multiplication and division
+-   `2^6`, `log(64, base = 2)` for exponentiation and logarithms
+-   `%%` modulo, i.e. division with rest
 
 ### Describing Data
 
-- `summary()` gives you a list of statistics for a vector (and also works on other types of objects we'll see later!)
-- `table()` gives you a frequency table, or a simple 2x2 table if you supply two vectors
-- `quantile(..., probs = ...)` for qantiles at probabilities given as `probs`
-- `mean()`, `median()` give you what you'd expect
-- `var()` for variance and `sd()` for the standard deviation
-- `min()` and `max()` for minimum and maximum of a vector, `range()` for both
-- `sum()` for the sum of a vector, see also it's lesser known sibling, `diff()`
-- `cumsum()` the cumulative sum, so a vector of the same length but each element is the sum of all previous elements
+-   `summary()` gives you a list of statistics for a vector (and also works on other types of objects we'll see later!)
+-   `table()` gives you a frequency table, or a simple 2x2 table if you supply two vectors
+-   `quantile(..., probs = ...)` for qantiles at probabilities given as `probs`
+-   `mean()`, `median()` give you what you'd expect
+-   `var()` for variance and `sd()` for the standard deviation
+-   `min()` and `max()` for minimum and maximum of a vector, `range()` for both
+-   `sum()` for the sum of a vector, see also it's lesser known sibling, `diff()`
+-   `cumsum()` the cumulative sum, so a vector of the same length but each element is the sum of all previous elements
 
 ### Sequences
 
-- `seq()` creates sequences from whicher start, end, and step size you provide
-- `a:b` also creates sequences, but always from `a` to `b` in steps of 1
-- `seq_len()` creates a sequence from 1 to whatever you provide - a shortcut for `1:n` 
-- `rep()` repeat elements to form a vector, e.g. `rep(c(1, 0), times = 3)`
+-   `seq()` creates sequences from whicher start, end, and step size you provide
+-   `a:b` also creates sequences, but always from `a` to `b` in steps of 1
+-   `seq_len()` creates a sequence from 1 to whatever you provide - a shortcut for `1:n`
+-   `rep()` repeat elements to form a vector, e.g. `rep(c(1, 0), times = 3)`
 
 ### Random Numbers / Probability Distributions
 
 R is first and foremost a statistical language, and as such it has great facilities for working with random number sand probability distributions.
 These functions come in 4 versions with different first letters for
 
-- `r` to draw **r**andom numbers
-- `d` for values from a probability **d**istribution
-- `p` for **p**robabilities
-- `q` for **q**uantiles of a distribution
+-   `r` to draw **r**andom numbers
+-   `d` for values from a probability **d**istribution
+-   `p` for **p**robabilities
+-   `q` for **q**uantiles of a distribution
 
 followed by the type of distribution, e.g.
 
-- `unif` for the uniform distribution
-- `norm` for the normal distribution
-- `binom` for the Binomial distribution
-- `pois` for the Poisson distribution
+-   `unif` for the uniform distribution
+-   `norm` for the normal distribution
+-   `binom` for the Binomial distribution
+-   `pois` for the Poisson distribution
 
 so for the normal distribition, we have the functions `rnorm()`, `dnorm()`, `pnorm()` and `qnorm()`.
 
 Some examples:
 
-- `rnorm(10, mean = 100, sd = 15)`  10 normally distributed numbers with mean 15 and SD of 5
-- `dbinom(4, size = 10, prob = 0.5)` probability of 4 successes after 10 trials with a probability of 0.5 for a Binomial event (like coin flips)
-- `pbirthday(20, classes = 365, coincident = 2)` probability of two people sharing the samer birthday in a group of 20
+-   `rnorm(10, mean = 100, sd = 15)` 10 normally distributed numbers with mean 15 and SD of 5
+-   `dbinom(4, size = 10, prob = 0.5)` probability of 4 successes after 10 trials with a probability of 0.5 for a Binomial event (like coin flips)
+-   `pbirthday(20, classes = 365, coincident = 2)` probability of two people sharing the samer birthday in a group of 20
 
 See also `?Distributions`
