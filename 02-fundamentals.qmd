@@ -220,7 +220,7 @@ typeof(3L)
 **Characters** are useful for text and categorical information, for example to denote regions of origin in a dataset:
 
 ```{r}
-countries <- c("Europe", "North America", "East Asia")
+continents <- c("Europe", "North America", "East Asia")
 ```
 
 For **logicals** it's important to note that `TRUE` and `FALSE` are reserved words, so you can't use them as variable names.
