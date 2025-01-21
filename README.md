@@ -91,8 +91,8 @@ Materials here are in part inspired by the great work other people have
 already done and kindly shared with the community!
 
 - [R Crash Course](https://r-crash-course.github.io/) (based on [a
-  Software Caroentry
-  coruse](https://swcarpentry.github.io/r-novice-gapminder/)
+  Software Carpentry
+  coruse](https://swcarpentry.github.io/r-novice-gapminder/))
 - [The R Workshop](https://www.r-workshop.org/) by Rebecca L. Barter
 
 ### Books
