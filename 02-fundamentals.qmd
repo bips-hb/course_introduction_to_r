@@ -115,7 +115,21 @@ weight_kg <- c(75, 64, 70, 85, 78)
 5.  Assign the vectors `(1.2, 3.4)` and `(3.6, 5.7)` to the variables `x` and `y`. Combine these into a single vector `z = (1.2, 3.4, 3.6, 5.7)` without writing out the individual elements / numbers.
 
 ```{r vector-practice}
-
+# 1. vector ABCD
+c("A", "B", "C", "D")
+# 2.
+c(1.2, 4.7, 9.4)
+# 3.
+10:1
+# 4.
+1:4 * 10
+seq(from = 10, to = 40, by = 10)
+# 5.
+x <- c(1.2, 3.4)
+y <- c(3.6, 5.7)
+z <- c(x, y) 
+# Identical to
+z <- c(1.2, 3.4, 3.6, 5.7)
 ```
 
 ### Your turn (2)
@@ -124,6 +138,10 @@ weight_kg <- c(75, 64, 70, 85, 78)
 2.  Store the result in a variable called `bmi`. Keep in mind you can use parentheses to group calculations like in a calculator, e.g. `(x + 4) * y`
 
 ```{r bmi-vector-calc}
+height_cm <- c(184, 174, 171, 179, 180)
+weight_kg <- c(75, 64, 70, 85, 78)
+
+weight_kg/height_cm^2
 
 ```
 
@@ -310,6 +328,9 @@ A help page always has the same format:
 
 ```{r calc-missing}
 
+mean(age)
+mean(age, na.rm = TRUE)
+mean(age, na.rm = TRUE)
 ```
 
 Bonus:
@@ -344,7 +365,7 @@ One of the most common applications is in **comparisons**, i.e., is `x` greater,
 In R, we can do these comparisons using *logical operators*:
 
 -   `x ==` **Equals** (two `=` signs without space in between)
--   `x !+` **Not Equal** (Exclamation point and `=` without space in between)
+-   `x !=` **Not Equal** (Exclamation point and `=` without space in between)
 -   `x > y` and `x < y` **Greater** and **Less than** (left and right angle brackets)
 -   `x >= y` and `x <= y` **Greater or equal** and **Less than or equal** (angle brackets with `=`)
 -   `x %in% y` is `x` **in** `y`?
