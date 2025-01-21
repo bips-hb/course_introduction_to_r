@@ -79,7 +79,7 @@ For the URL, enter `https://github.com/bips-hb/course_introduction_to_r.git`
 
 Materials here are in part inspired by the great work other people have already done and kindly shared with the community!
 
--   [R Crash Course](https://r-crash-course.github.io/) (based on [a Software Carpentry coruse](https://swcarpentry.github.io/r-novice-gapminder/))
+-   [R Crash Course](https://r-crash-course.github.io/) (based on [a Software Carpentry course](https://swcarpentry.github.io/r-novice-gapminder/))
 -   [The R Workshop](https://www.r-workshop.org/) by Rebecca L. Barter
 
 ### Books
