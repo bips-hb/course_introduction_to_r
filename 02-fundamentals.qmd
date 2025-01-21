@@ -134,8 +134,6 @@ height_cm <- c(184, 174, 171, 179, 180)
 weight_kg <- c(75, 64, 70, 85, 78)
 ```
 
-### 
-
 1.  Using the variables above, calculate the BMI for each patient.
 2.  Store the result in a variable called `bmi`. Keep in mind you can use parentheses to group calculations like in a calculator, e.g. `(x + 4) * y`
 
@@ -399,10 +397,20 @@ weight_kg < 60 | weight_kg > 90
 It can be useful to turn the `TRUE` and `FALSE`s into the index positions of the vector:
 
 ```{r}
+weight_kg == 101
 which(weight_kg == 101)
 ```
 
-This tells us the 6th element is the one with the value `101`,
+This tells us the 7th element is the one with the value `101`.
+
+We can also use functions for help, like finding out which position in the vector is the smallest or largest
+
+```{r}
+which(weight_kg == min(weight_kg))
+which(weight_kg == max(weight_kg))
+```
+
+This is so useful that R has functions for that, see `?which.min`
 
 ### Vector Indexing
 
