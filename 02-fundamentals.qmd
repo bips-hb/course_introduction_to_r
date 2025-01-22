@@ -3,7 +3,7 @@ title: "2: R Fundamentals"
 format: 
   html:
     toc: true
-editor: source
+editor: visual
 ---
 
 ## Hello There!

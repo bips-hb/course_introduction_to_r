@@ -3,17 +3,19 @@ title: "3: Tabular Data"
 format: 
   html:
     toc: true
-editor: source
+editor: visual
 ---
 
-So far we have used individual vectors as data, but of course it is not particularly convenient to work with real data like that. Whether your data originally is stored in an Excel file or some sort of database system, it is usually stored in a *tabular* format, ideally with two key properties:
+So far we have used individual vectors as data, but of course it is not particularly convenient to work with real data like that.
+Whether your data originally is stored in an Excel file or some sort of database system, it is usually stored in a *tabular* format, ideally with two key properties:
 
 1.  Each **column** of your data is a **variable** (like age, weight, ...)
 2.  Each **row** of your data is an **observation** (like a single patient, a hospital, a country, ...)
 
 In the real world, data tends to come in all shapes and sizes, but for the purposes of analysis this is the shape to strive for.
 
-Just like we made up some patient data to store as vectors, we can use the same approach to create tabular data, using the `data.frame()` function. Each argument of this function takes a *vector* just like we used before, so in a sense the `data.frame` is just a way to organize vectors that all must have the same length!
+Just like we made up some patient data to store as vectors, we can use the same approach to create tabular data, using the `data.frame()` function.
+Each argument of this function takes a *vector* just like we used before, so in a sense the `data.frame` is just a way to organize vectors that all must have the same length!
 
 ```{r df-ex1}
 example_df <- data.frame(
@@ -72,7 +74,8 @@ example_df[5, 1]
 example_df[5, "id"]
 ```
 
-When we use single brackets, the result is still a `data.frame` unless in the last case where the result is a scalar. This can become somewhat tricky, but if you *insist* on the result being a `data.frame` you can add `drop = FALSE`:
+When we use single brackets, the result is still a `data.frame` unless in the last case where the result is a scalar.
+This can become somewhat tricky, but if you *insist* on the result being a `data.frame` you can add `drop = FALSE`:
 
 ```{r df-drop}
 example_df[5, 1, drop = FALSE]
@@ -95,7 +98,7 @@ iris
 
 They are built-in in the sense that they are part of the R installation - you can not accidentally delete them and you don't need to do anything special to access them, which makes them the standard case for tutorials and examples --- and of course also a little boring!
 
-We can also install packages that provide additional data, and many packages that provide some sort of statistical or visualization functionality often include toy datasets to illusrate their use.  
+We can also install packages that provide additional data, and many packages that provide some sort of statistical or visualization functionality often include toy datasets to illusrate their use.\
 We'll see examples of that later as well!
 
 ### Reading and Writing Data from/to Files
@@ -108,7 +111,7 @@ For simplicity we'll focus on two kinds of formats: R's built-in format `RDS`, a
 
 #### RDS
 
-RDS has the benefit of being able to losslessly store any kidn of R objects, which means that whatever you store as a file on your computer you'll most likely be able to just read into R again and use it as if nothing happened.  
+RDS has the benefit of being able to losslessly store any kidn of R objects, which means that whatever you store as a file on your computer you'll most likely be able to just read into R again and use it as if nothing happened.\
 This is why RDS is the most popular for "within R" workflow where you want to store intermediate results for example, or cleaned datasets you want to use later for analysis in a different R project.
 
 We can store and restore data to RDS like this, using the `example_df` and the `data` directory in this project:
@@ -130,7 +133,7 @@ identical(example_df, example_rds)
 ### CSV
 
 Comma separated values (CSV) are maybe the most common way to share data that's not large enough to require database or strong compression.
-If you want to share data in a way that others can import it into Excel without a big headache, this is probably the way to go!  
+If you want to share data in a way that others can import it into Excel without a big headache, this is probably the way to go!\
 Also if you want to make sure that your great-great-great-grandchildren are still able to read your data without any special software.
 
 It's the lowest common denominator in many ways, and it can be very annoying to deal with.
@@ -146,9 +149,8 @@ example_csv <- read.csv(file = "data/example.csv")
 ```
 
 Note that `?read.csv` and `?write.csv` show a few option that will be useful at some point, like `sep`.
-By default, we write and read comma-delimited files, but we could also do `sep = ";"` to use `;` as a separating character!  
+By default, we write and read comma-delimited files, but we could also do `sep = ";"` to use `;` as a separating character!\
 When you try to read data with Excel for example, then using `;` might make things easier.
-
 
 When it comes to reading external data, tons of things can go wrong and for now, we just assume that it went okay.
 
@@ -160,19 +162,20 @@ For future reference though:
 -   Refer to [this chapter in R4DS](https://r4ds.hadley.nz/import) for more information and examples!
 -   The package `haven` has functions to read and write data in formats used by SAS and SPSS
 
+::: callout-tip
+To keep a project organized, it's good practice to
 
-::: {.callout-tip}
-To keep a project organized, it's good practice to 
-
-- Store original, raw data in a dedicated directory like `data-raw` and **never modify it**!
-- Read it, clean it, and store a clean version of your data in `data`
+-   Store original, raw data in a dedicated directory like `data-raw` and **never modify it**!
+-   Read it, clean it, and store a clean version of your data in `data`
 
 That way, you should always your original data, your final data, and most importantly: Reproducible R code you can share with others that explains how to get from point A to point B!
 :::
 
 ## Excursion: Packages
 
-Before we move on, it's time to take a look at this open source ecosystem we mentioned in the beginning. In R, this mostly means we can install *packages*. A package is a collection of functions and sometimes other objects which we can use for additional capabilities, and lets us benefit from other people's work such that we don't have to reinvent the wheel every time we do an analysis.
+Before we move on, it's time to take a look at this open source ecosystem we mentioned in the beginning.
+In R, this mostly means we can install *packages*.
+A package is a collection of functions and sometimes other objects which we can use for additional capabilities, and lets us benefit from other people's work such that we don't have to reinvent the wheel every time we do an analysis.
 
 We can install packages using either RStudio's "Packages" pane to the right, or we can use R functions directly.
 
@@ -205,19 +208,16 @@ example_df <- read_excel("data-raw/example.xlsx")
 Here, the function `read_excel()` is provided by the package `readxl` and only available when that package is installed and loaded!
 An error message like
 
-```
+```         
 could not find function "read_excel"
 ```
 
 indicated that you either have not loaded the required package or maybe mistyped the function name.
 
-
-::: {.callout-note} 
-
+::: callout-note
 Once a package is installed, it is also possible to use one of its functions without loading it beforehand by using the `::` syntax, like `readxl::read_excel()`
 
 We won't do that here yet, but in the wild you might find people referring to a function in the format `somePackage::some_fun()` to clarify they mean `some_fun()` from the package `somePackage`!
-
 :::
 
 ### Your Turn
@@ -231,9 +231,7 @@ Unless you have already done so, install the following packages:
 -   "table1"
 -   "ggstatsplot"
 
-Optional:
--   "ggthemes"
--   "readr"
+Optional: - "ggthemes" - "readr"
 
 **Alternatively** you can install the package `pak` first, and then install the packages above using `pkg_install()`:
 
@@ -241,7 +239,7 @@ Optional:
 pkg_install("tidyverse")
 ```
 
-`pak` should be a bit faster and depending on your operating system also more robust, and it brings a few features not relevant yet.  
+`pak` should be a bit faster and depending on your operating system also more robust, and it brings a few features not relevant yet.\
 If you use a Linux distribution like Ubuntu, `pak` can save you a lot of annoyances.
 
 In any case, this might take a moment!
@@ -251,11 +249,9 @@ In any case, this might take a moment!
 As mentioned, accessing tabular data is a bit more complex than it is for vectors, and in the next section we will learn about convenient tools for this case.
 However, there are some common built-in tools that R provides for this which you should be at least aware of.
 
-We'll start with a new dataset from one of the packages you just installed: `gapminder`
-This dataset is based on the [Gapminder](https://www.gapminder.org/) data, and also part of (Hans Rosling's almost 20 year old TED talk](https://www.ted.com/talks/hans_rosling_the_best_stats_you_ve_ever_seen).
+We'll start with a new dataset from one of the packages you just installed: `gapminder` This dataset is based on the [Gapminder](https://www.gapminder.org/) data, and also part of (Hans Rosling's almost 20 year old TED talk\](https://www.ted.com/talks/hans_rosling_the_best_stats_you_ve_ever_seen).
 
-First we _load the data_ which in this case means to just load the `gapminder` package to access the dataset with the same name (confusingly so) 
-
+First we *load the data* which in this case means to just load the `gapminder` package to access the dataset with the same name (confusingly so)
 
 ```{r}
 library(gapminder)
@@ -287,7 +283,7 @@ str(gapminder)
 Don't forget we can also refer to the documentation using `?gapminder` to learn about what each variable means!
 
 There is also something new there: A type of data we have not encountered before: The `factor`!
-`factors` are for _categorical data_, particularly the kind where we know beforehand how many different categories there are and what they are called.
+`factors` are for *categorical data*, particularly the kind where we know beforehand how many different categories there are and what they are called.
 
 A quick example:
 
@@ -298,7 +294,7 @@ fruit
 levels(fruit)
 ```
 
-We can set the `levels` of a factor manually or change them later.  
+We can set the `levels` of a factor manually or change them later.\
 A `factor` can have a level that does not appear on the data, but it will "know" that there is an extra category, which helps us keep an overvoew on what we expect!
 
 ```{r factor-example-2}
@@ -317,7 +313,7 @@ The `table()` function gives us a simple frequency table of the data, and since 
 table(fruit)
 ```
 
-`factors` are like `characters` but with _additional information_ stored in them, and dealing with them can be a bit counter-intuitive.
+`factors` are like `characters` but with *additional information* stored in them, and dealing with them can be a bit counter-intuitive.
 For now, we're happy with knowing that they exists and that they are useful for categorical data!
 
 In `gapminder`, there are two `factor` variables as we have seen using `str()`: `country` and `continent`.
@@ -334,15 +330,13 @@ We will get a better overview later, but for now we'll practice the basics for a
 
 Using the `gapminder` data, try to find out the following:
 
-1. Select the variables `country`, `pop` and `lifeExp`
-2. Filter the dataset to the year 2007
-3. For the country of _Mauritius_, what is the population in the year 1997?
-4. How many different countries are in the dataset?
-
+1.  Select the variables `country`, `pop` and `lifeExp`
+2.  Filter the dataset to the year 2007
+3.  For the country of *Mauritius*, what is the population in the year 1997?
+4.  How many different countries are in the dataset?
 
 ```{r gapminder-exploration-df}
 
 ```
-
 
 Hint: The function `unique()` is similar to `levels()` for factors, but more general -- both can be combined with `length()`!

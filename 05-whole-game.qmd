@@ -3,7 +3,7 @@ title: "5: The Whole Game"
 format: 
   html:
     toc: true
-editor: source
+editor: visual
 ---
 
 By now we have enough useful tools at our disposal practice an exploratory analysis:

@@ -3,7 +3,7 @@ title: "4: The Tidyverse"
 format: 
   html:
     toc: true
-editor: source
+editor: visual
 ---
 
 The [**Tidyverse**](https://www.tidyverse.org/) is a collection of R packages created and maintained by the same group of people, largely from the same company that also created RStudio: Posit!
