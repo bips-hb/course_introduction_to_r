@@ -37,6 +37,11 @@ We can access individual **columns** of the data.frame like the vectors they are
 example_df$age
 example_df[[2]]
 example_df[["age"]]
+
+example_df$id
+example_df$weight_kg
+
+
 ```
 
 Since this gives us a vector, we can do the usual vector things:
@@ -78,11 +83,17 @@ When we use single brackets, the result is still a `data.frame` unless in the la
 This can become somewhat tricky, but if you *insist* on the result being a `data.frame` you can add `drop = FALSE`:
 
 ```{r df-drop}
+example_df[5, 1]
+
 example_df[5, 1, drop = FALSE]
 ```
 
 This is a "good to know and easy to forget" bit of information.
 Soon we will introduce mechanisms to make working with tabular data a bit more intuitive, but since you will most likely encounter this type of code in the wild, we'll practice it a little soon.
+
+```{r}
+example_df[example_df$age >= 30, ]
+```
 
 ## External Data
 
@@ -98,7 +109,7 @@ iris
 
 They are built-in in the sense that they are part of the R installation - you can not accidentally delete them and you don't need to do anything special to access them, which makes them the standard case for tutorials and examples --- and of course also a little boring!
 
-We can also install packages that provide additional data, and many packages that provide some sort of statistical or visualization functionality often include toy datasets to illusrate their use.\
+We can also install packages that provide additional data, and many packages that provide some sort of statistical or visualization functionality often include toy datasets to illustrate their use.\
 We'll see examples of that later as well!
 
 ### Reading and Writing Data from/to Files
@@ -111,23 +122,43 @@ For simplicity we'll focus on two kinds of formats: R's built-in format `RDS`, a
 
 #### RDS
 
-RDS has the benefit of being able to losslessly store any kidn of R objects, which means that whatever you store as a file on your computer you'll most likely be able to just read into R again and use it as if nothing happened.\
+RDS has the benefit of being able to losslessly store any kind of R objects, which means that whatever you store as a file on your computer you'll most likely be able to just read into R again and use it as if nothing happened.\
 This is why RDS is the most popular for "within R" workflow where you want to store intermediate results for example, or cleaned datasets you want to use later for analysis in a different R project.
 
 We can store and restore data to RDS like this, using the `example_df` and the `data` directory in this project:
 
 ```{r rds-store}
-saveRDS(example_df, file = "data/example.rds")
+getwd()
+
+saveRDS(example_df, file = "data/example_df.rds")
 ```
 
 ```{r rds-read}
-example_rds <- readRDS(file = "data/example.rds")
+example_rds <- readRDS(file = "data/example_df.rds")
 ```
 
 We can check if the two are identical:
 
 ```{r}
 identical(example_df, example_rds)
+```
+
+1.  Create a data.frame called `test_df`with 3 variables
+2.  Save to `data/test.rds`
+3.  Read it back and name the variable `read_test`
+
+```{r}
+test_df <- data.frame(
+  letter = c("A", "B", "C", "hello"),
+  height_cm = c(123, 346, 123, 7457),
+  logical = c(TRUE, FALSE, TRUE, TRUE)
+)
+test_df
+
+saveRDS(test_df, file = "data/test.rds")
+read_test <- readRDS(file = "data/test.rds")
+
+identical(test_df, read_test)
 ```
 
 ### CSV
@@ -141,11 +172,12 @@ It's the lowest common denominator in many ways, and it can be very annoying to 
 In the simplest case we can read and write CSVs with `read.csv()`
 
 ```{r csv-write}
-write.csv(example_df, file = "data/example.csv")
+write.csv(example_df, file = "data/example_csv123.csv", 
+          row.names = FALSE)
 ```
 
 ```{r csv-read}
-example_csv <- read.csv(file = "data/example.csv")
+example_csv <- read.csv(file = "data/example_csv123.csv")
 ```
 
 Note that `?read.csv` and `?write.csv` show a few option that will be useful at some point, like `sep`.
@@ -195,14 +227,14 @@ We can now use functions from the package, and if we don't know where to start, 
 
 Keep in mind:
 
-1.  You have to **install** a package *once* into your "library"
-2.  You have to **load** the package every time you restart R
-3.  You **should** occasionally *update* your installed packages using `update.packages()`.
+1.  You *have to* **install** a package *once* into your package "library"
+2.  You *have to* **load** the package every time you restart R
+3.  You *should* occasionally **update** your installed packages using `update.packages(ask = FALSE)`.
 
 As an example for what we would use `readxl` for, let's read an example dataset stored on `data-raw` in this folder in the `.xlsx` format.
 
 ```{r read-xlsx}
-example_df <- read_excel("data-raw/example.xlsx")
+example_df <- readxl::read_excel(path = "data-raw/example.xlsx")
 ```
 
 Here, the function `read_excel()` is provided by the package `readxl` and only available when that package is installed and loaded!
@@ -236,6 +268,7 @@ Optional: - "ggthemes" - "readr"
 **Alternatively** you can install the package `pak` first, and then install the packages above using `pkg_install()`:
 
 ```{r install-pak, eval=FALSE}
+library(pak)
 pkg_install("tidyverse")
 ```
 
@@ -257,9 +290,12 @@ First we *load the data* which in this case means to just load the `gapminder` p
 library(gapminder)
 
 gapminder
+
+View(gapminder)
+?gapminder
 ```
 
-To see the number of rows and colums, we can use `nrow()`, `ncol()`, or `dim()`.
+To see the number of rows and columns, we can use `nrow()`, `ncol()`, or `dim()`.
 
 ```{r}
 nrow(gapminder)
@@ -288,7 +324,7 @@ There is also something new there: A type of data we have not encountered before
 A quick example:
 
 ```{r factor-example-1}
-fruit <- factor(c("apple", "orange", "apple"))
+fruit <- factor(c("apple", "lemon", "apple"))
 fruit
 
 levels(fruit)
@@ -311,6 +347,10 @@ The `table()` function gives us a simple frequency table of the data, and since 
 
 ```{r}
 table(fruit)
+
+fruit_char <- c("orange", "apple", "apple", "orange", "apple", "orange")
+
+table(fruit_char)
 ```
 
 `factors` are like `characters` but with *additional information* stored in them, and dealing with them can be a bit counter-intuitive.
@@ -336,6 +376,7 @@ Using the `gapminder` data, try to find out the following:
 4.  How many different countries are in the dataset?
 
 ```{r gapminder-exploration-df}
+
 
 ```
 
