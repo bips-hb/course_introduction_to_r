@@ -5,10 +5,9 @@ on:
     branches:
       - main
 
-permissions: 
-    contents: write
-    pages: write
-
+permissions:
+  contents: write
+  pages: write
 
 jobs:
   build:
@@ -21,17 +20,13 @@ jobs:
       - uses: r-lib/actions/setup-pandoc@v2
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          extra-packages: any::pins, any::paws.storage, local::.
+          extra-packages: any::rmarkdown, any::gapminder, local::.
       - uses: quarto-dev/quarto-actions/setup@v2
-
-  
-
       # - name: Setup tmate session
       #   uses: mxschmitt/action-tmate@v3
-
-    - name: Publish to GitHub Pages (and render)
-      uses: quarto-dev/quarto-actions/publish@v2
-      with:
-        target: gh-pages
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # this secret is always available for github actions
+      - name: Publish to GitHub Pages (and render)
+        uses: quarto-dev/quarto-actions/publish@v2
+        with:
+          target: gh-pages
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # this secret is always available for github actions
