@@ -291,6 +291,11 @@ library(gapminder)
 
 gapminder
 
+```
+
+We can also view the dataset in RStudio with `View()`, and look at its documentation with `?`:
+
+```r
 View(gapminder)
 ?gapminder
 ```

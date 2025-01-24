@@ -1,0 +1,412 @@
+---
+title: "5: ggplot2"
+format: 
+  html:
+    toc: true
+editor: visual
+---
+
+Building on the previous section, this is where things get visual!
+
+Finally!
+
+We'll start by loading the tidyverse and gapminder for the data:
+
+```{r}
+library(tidyverse)
+library(gapminder)
+```
+
+
+## Introducing: `ggplot2`
+
+As far as data visualization goes, `ggplot2` is probably the most popular package in the R ecosystem.\
+It's an implementation of the "Grammar of graphics", hence the `gg`, and it's well known for its versatility.
+We can create the most common types of plots with relative ease, including
+
+-   Scatterplots
+-   Boxplots
+-   Histograms
+-   Barcharts (horizontal or vertical)
+
+A ggplot is made up of **layers**, which are added to the plot with `+` and can be modified with `+` as well.\
+Think of building a ggplot as stacking layers on top of each other, and modifying the layers as you go.
+
+Let's start with an example of a scatterplot:
+
+```{r}
+ggplot(gapminder)
+```
+
+This doesn't really do anything yet -- it's the *empty* layer.
+But at least we specific a dataset.
+
+```{r}
+ggplot(gapminder, mapping = aes(x = lifeExp, y = gdpPercap))
+```
+
+Here we used `aes()` to declare a *mapping* or *aesthetics* between the variables `lifeExp` to the x-axis and `gdpPercap` to the y-axis.
+This is the crucial step to creating a plot!
+But we have not decided what the *geometric* object is going to be, which is the `geom_` part of the plot.
+
+```{r}
+ggplot(gapminder, aes(x = lifeExp, y = gdpPercap)) +
+  geom_point()
+```
+
+This already looks like a scatterplot!\
+We might want to adjust the point size, color, etc. -- that's the job of the `geom`!
+
+```{r}
+ggplot(gapminder, aes(x = lifeExp, y = gdpPercap)) +
+  geom_point(size = 5, color = "#206b0d", alpha = 0.1)
+```
+
+We can save the plot to a variable `p` and then modify it afterwards:
+
+```{r}
+p <- ggplot(gapminder, aes(x = lifeExp, y = gdpPercap)) +
+  geom_point(size = 3, color = "blue", alpha = 0.25)
+
+p
+```
+
+For example, we can try out some themes, for examples those provided by the `ggthemes` package:
+
+```{r}
+library(ggthemes)
+
+p + theme_calc()
+p + theme_economist()
+p + theme_base()
+p + theme_excel()
+p + theme_excel_new()
+p + theme_stata()
+```
+
+```{r}
+# Default theme, but with bigger text
+p + theme_gray(base_size = 14)
+# Lukas' "go to" theme :)
+p + theme_minimal(base_size = 14)
+```
+
+Playing around with ggplot themes is usually a great way to spend an afternoon, so we'll leave it at that for now, but you can find more info at the [ggthemes](https://yutannihilation.github.io/allYourFigureAreBelongToUs/ggthemes/) website or ggplot2's documentation at https://ggplot2.tidyverse.org.
+
+### Core `geom_`s
+
+For now we will keep the colors and theming simple and focus on the most common types of plots you'll likely want to create:
+
+-   Scatterplots -\> `geom_point()`
+-   Boxplots -\> `geom_boxplot()`
+-   Histograms -\> `geom_histogram()`
+-   Barcharts (horizontal or vertical) -\> `geom_col()` or `geom_bar()`
+
+As a general tip, it's often useful to use tidyverse verbs as "pre-processing" before piping data into `ggplot()`, that way you can focus on the plot itself after you have prepared your data to look like you need it for the type of plot you want.
+
+#### Scatterplots
+
+We have seen an example scatterplot before, but given the data at hand it's probably more useful to focus on a specific year at a time, which is easiest to do with a `filter()` step beforehand
+
+```{r}
+p <- gapminder |>
+  filter(year == 1987) |>
+  ggplot(aes(x = lifeExp, y = gdpPercap)) +
+  geom_point()
+```
+
+::: callout-note
+If you get confused between using `|>` and `+`, know that you are not alone!\
+Luckily, the error messages are informative.
+:::
+
+A more advanced examples would be to add a linear regression line, but in this case we can already see that a linear fit is not appropriate here.
+We can still add a regression line though, by adding new layer:
+
+```{r}
+p +
+  geom_smooth()
+```
+
+`geom_smooth()` will add a general trendline, which could be a linear model or a loess curve or a GAM -- if you want to explicitly add a linear trendline, use `geom_smooth(method = "lm")`, but beware that this is not always approriate!
+
+```{r}
+p +
+  geom_smooth(method = "lm", color = "red", se = FALSE)
+```
+
+In some cases, a scatterplot is maybe not well suited, for example if the `x`-variable is *technically* numeric but *effectively* categorical, like `year` in this case:
+
+```{r}
+gapminder |>
+  ggplot(aes(x = year, y = gdpPercap)) +
+  geom_point()
+```
+
+That's where boxplots are useful!
+
+#### Boxplots
+
+So a boxplot where each year gets its own box should be straight forward, yes?
+
+```{r}
+gapminder |>
+  ggplot(aes(x = year, y = gdpPercap)) +
+  geom_boxplot()
+```
+
+Unfortunately, no.
+Since `year` is technically numeric, we have two ways to deal with it and let ggplot now that `year` should be used as a grouping variable, and one of which the error message already suggested:
+
+```{r}
+gapminder |>
+  ggplot(aes(x = year, y = gdpPercap, group = year)) +
+  geom_boxplot()
+
+gapminder |>
+  ggplot(aes(x = year, y = gdpPercap, group = year)) +
+  geom_boxplot() +
+  scale_y_log10()
+```
+
+Here `group` is used within `aes()` as a special mapping that tells `ggplot` that `year` should be used to group the data into boxplots without us needing to otherwise modify the data.
+
+However, if we wanted, we could also recode `year` to be a factor variable just for this one case, which should alos get us where we need:
+
+```{r}
+gapminder |>
+  mutate(year = as.factor(year)) |>
+  ggplot(aes(x = year, y = gdpPercap)) +
+  geom_boxplot()
+
+```
+
+```{r}
+gapminder |>
+  filter(year == 1997) |>
+  ggplot(aes(x = continent, y = pop)) +
+  geom_boxplot(fill = "darkred", alpha = .25) +
+  scale_y_log10(labels = scales::number_format()) +
+  theme_minimal(base_size = 14) +
+  theme(
+    axis.title = element_text(hjust = 0, size = unit(13, "mm"))
+  )
+
+```
+
+#### Histograms
+
+A histogram is technically a type of barchart, but since it's so common and requires binning the data, it get's a special place within ggplot.
+
+```{r}
+p <- gapminder |>
+  filter(year == 2007) |>
+  ggplot(aes(x = lifeExp))
+  
+p +
+  geom_histogram(color = "black")
+```
+
+If the defaults are not suited well, we can adjust the bins with `binwidth` (in this case the number of years on the x-axis) or `bins` to specify the number of bins in total.
+Another thing we'll add is the `color` argument, which for a barchart changes the outline color of the bars and let's us see the bars better.
+There's also `fill`, which changes the fill color of the bars.
+
+```{r}
+p + geom_histogram(binwidth = 5, color = "black") 
+p + geom_histogram(binwidth = 10, color = "black")
+p + geom_histogram(bins = 10, color = "black")
+```
+
+#### Barcharts
+
+Sometimes people use different names vor horizontal or vertical bar charts, and confusingly enough ggplot only differentiates between "column" charts and "bar" charts, both of which can have either orientation.
+
+Let's settle on a simple goal: the number of observations (countries) per continent in 2007.\
+For practice, let's first calculate that using `dplyr` verbs and use the `n()` helper function which just counts the number of rows (in a group):
+
+```{r}
+gapminder |>
+  filter(year == 2007) |>
+  group_by(continent) |>
+  summarize(n = n())
+```
+
+This combination of `group_by() |> summarize(n = n())` is so common that ggplot has a shortcut for it: `count()`:
+
+```{r}
+gapminder |>
+  filter(year == 2007) |>
+  count(continent)
+```
+
+But we digress -- let's get charting:
+
+`geom_bar()` behaves similar to `geim_histogram()`, but for categorical variables.
+It doesn't do any binning, and just counts the number of observations for each group defined by the variable passed to `x`:
+
+```{r}
+p <- gapminder |>
+  filter(year == 2007) |>
+  ggplot(aes(x = continent)) +
+  geom_bar()
+
+p
+```
+
+If we want to change orientation, it's easy to do, but there are multiple ways!
+
+Version 1: Use `coord_flip()`:
+
+```{r}
+p + coord_flip()
+```
+
+Version 2: Pass the variable to `y` rather than `x`:
+
+```{r}
+gapminder |>
+  filter(year == 2007) |>
+  ggplot(aes(y = continent)) +
+  geom_bar()
+```
+
+::: callout-note
+The reason there are multiple ways to do that is because early on, only version 1 was possible, and version 2 was only made possible relatively recently.\
+There are many things like that in ggplot2, so please don't be afraid to try out different ways of doing things --- unless you get a warning or error message, it's probably fine if it gets you what you want, and when in doubt there's always good onlie documentation or tutorials.
+:::
+
+But what about `geom_col`?\
+Well, sometimes we just want to make a barchart without ggplot doing the counting for us!\
+Maybe we want percentages rather than absolute numbers on the `y`-axis for example.
+That's what `geom_col()` is for: It let's us define `x` *and* `y` variables.
+
+Let's say we want the same basic plot as before, but with percentages:
+
+```{r}
+gapminder |>
+  filter(year == 2007) |>
+  group_by(continent) |>
+  summarize(
+    n = n(),
+    percent = n / n_distinct(gapminder$country)
+  ) |>
+  ggplot(aes(x = continent, y = percent)) +
+  geom_col()
+```
+
+Note that we need to refer to the full dataset to get the total number of countries here in order to calculate the percentages, because after we have used `group_by()`, all operations are limited to the group we are currently working with!
+
+So as far as the plot goes, this is technically correct, but not very nice to look at.\
+Let's use this as a starting point to make our plots a little nicer!
+
+### Your turn: Customization
+
+If we wanted to use this plot in a publication or presentation, we probably should make a few tweaks.
+
+Let's specify a few "wants", together with a few hints on how to achieve them, and experiment with them!
+
+1.  Change the axis labels to something more human-readable
+2.  Add a title, subtitle, and caption to better describe what we're seeing
+3.  Maybe a nicer `fill` color than gray? Pick one you like from <https://www.color-hex.com/>
+4.  Reorder the columns from highest to lowest
+
+Advanced:
+
+5.  The y-axis labels would probably look better as "30%" rather than "0.3"
+
+Hints:
+
+-   Look at the documentation at <https://ggplot2.tidyverse.org/reference/index.html>
+-   `labs()` should suffice for 1 and 2!
+-   The function `color()` lists all color names R knows, otherwise you can use RGB codes like `#CBDFBD` if you google "RGB color picker" you'll find a lot of examples!
+-   Reordering the continents is as easy as using `reorder()`!
+
+```{r ggplot-customization}
+gapminder |>
+  filter(year == 2007) |>
+  group_by(continent) |>
+  summarize(
+    n = n(),
+    percent = n / n_distinct(gapminder$country)
+  ) |>
+  ggplot(aes(x = reorder(continent, desc(percent)), y = percent)) +
+  geom_col(fill = "#63AEE1") +
+  scale_y_continuous(
+    breaks = seq(0, 1, by = 0.1),
+    labels = scales::label_percent()
+  ) +
+  labs(
+    title = "Countries per Continent",
+    subtitle = "Data from Gapminder",
+    x = "Continents in Gapminder",
+    y = "Countries per Continent",
+    caption = "Data as of 2007"
+  )
+```
+
+## Advanced `ggplot2`
+
+## "But isn't there an easier way?"
+
+Yes, there is!\
+`ggplot2` is all about the building blocks, and for many common scenarios it's cumbersome to always stack the same components on top of each other.\
+Luckily there are *tons* of R packages either extending ggplot2 or providing wrappers for common needs.
+
+One of those wrapper packages is [`ggstatsplot`](https://indrajeetpatil.github.io/ggstatsplot), which you should have installed earlier in the course but which we haven't used yet.
+
+As the title suggest this package is primarily aimed towards statistical comparisons, but it can also be used for exploratory analyses.
+
+```{r}
+library(ggstatsplot)
+```
+
+```{r}
+gapminder |>
+  filter(year == 2007) |>
+  ggbetweenstats(
+    x = continent, y = lifeExp,
+    xlab = "Continent",
+    ylab = "Life Expectancy (years)",
+    title = "Life Expectancy by Continent (2007)"
+  )
+```
+
+We can disable some of the statistical information by using `bf.message = FALSE` and `results.subtitle = FALSE`:
+
+```{r}
+gapminder |>
+  filter(year == 2007) |>
+  ggbetweenstats(
+    x = continent, y = lifeExp,
+    xlab = "Continent",
+    ylab = "Life Expectancy (years)",
+    bf.message = FALSE, 
+    results.subtitle = FALSE,
+    title = "Life Expectancy by Continent (2007)"
+  )
+```
+
+Recreating something like this with `ggplot2` is a bit of a chore, but `ggstatsplot` makes it a lot easier!
+Here's an incomplete attempt of recreating the above plot:
+
+```{r}
+gapminder |>
+  filter(year == 2007) |>
+    ggplot(aes(x = continent, y = lifeExp)) +
+    geom_violin() +
+    geom_boxplot(alpha = .1, width = 0.4) +
+    geom_point(
+      aes(fill = continent),
+      shape = 21, size = 3, stroke = 0, alpha = .4,
+      position = position_jitter(width = 0.1)
+    ) +
+    stat_summary(fun = mean, geom = "point", shape = 21, size = 3, color = "black", fill = "darkred") +
+    labs(
+      title = "Life Expectancy by Continent (2007)",
+      subtitle = "Data via Gapminder",
+      x = "Continent",
+      y = "Life Expectancy (years)"
+    ) +
+    theme_minimal(base_size = 14) +
+    theme(legend.position = "none")
+```
