@@ -20,7 +20,7 @@ jobs:
       - uses: r-lib/actions/setup-pandoc@v2
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          extra-packages: any::rmarkdown, any::gapminder, local::.
+          extra-packages: any::rmarkdown, any::gapminder
       - uses: quarto-dev/quarto-actions/setup@v2
       # - name: Setup tmate session
       #   uses: mxschmitt/action-tmate@v3
