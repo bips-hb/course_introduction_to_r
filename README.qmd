@@ -87,3 +87,4 @@ Materials here are in part inspired by the great work other people have already 
 -   [R for Data Science](https://r4ds.hadley.nz/) by Hadley Wickham et al.
 -   [Advanced R](https://adv-r.hadley.nz/) by Hadley Wickham
 -   [What They Forgot to Teach You About R](https://rstats.wtf/) by Jennifer Bryan et al.
+-   [The R Graphics Cookbook](https://r-graphics.org/)

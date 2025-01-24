@@ -101,3 +101,4 @@ already done and kindly shared with the community!
 - [Advanced R](https://adv-r.hadley.nz/) by Hadley Wickham
 - [What They Forgot to Teach You About R](https://rstats.wtf/) by
   Jennifer Bryan et al.
+- [The R Graphics Cookbook](https://r-graphics.org/)
