@@ -13,7 +13,7 @@ By now we have enough useful tools at our disposal practice an exploratory analy
 3.  Visualize potentially interesting variable using `ggplot2`
 
 We will first go through these steps and then build on them by introducing additional tools for statistical reporting, but throughout this last piece of the course there will be fewer code examples and more room for you to experiment!
-This will take some time, so don't worry if you don't get everything down right the first time or if we don't finish this chapter before the end of the course.  
+This will take some time, so don't worry if you don't get everything down right the first time or if we don't finish this chapter before the end of the course.
 
 ```{r}
 library(tidyverse)
@@ -24,7 +24,7 @@ library(tidyverse)
 So far we have played with example data and the `gapminder` data, but now it's time to start with something fresh and unfamiliar.
 
 The dataset we'll explore is called "chemo", and you can find it in the `data-raw` directory in these workshop materials.
-It is stored as a CSV file called `"chemo.csv"`, and to import it you *could* use the builtin function `read.csv()`, but to be more tidyverse-focused we'll use the `readr` package and the `read_csv()` function, which is a tad more flexible and more user-friendly.
+It is stored as a CSV file called `"chemo.csv"`, and to import it you *could* use the built-in function `read.csv()`, but to be more tidyverse-focused we'll use the `readr` package and the `read_csv()` function, which is a tad more flexible and more user-friendly.
 We'll give it the name `chemo` from here on out!
 
 ```{r}
@@ -32,29 +32,27 @@ chemo <- readr::read_csv("data-raw/chemo.csv")
 chemo
 ```
 
-
 Here is an basic data dictionary for the `chemo` dataset:
 
-| Variable   | Description                           | 
-|:-----------|:----------------------------------    |
-| `trt`      | Treatment group                       | 
-| `age`      | Age in years                          | 
-| `marker`   | Marker level (ng/mL)                  | 
-| `stage`    | Tumor stages `T1` through `T4`        |
-| `grade`    | Tumor grade `I`, `II`, `III`          |
-| `response` | Tumor response (`0` = no, `1` = yes)  |
-| `death`    | Death (`0` = no, `1` = yes)           |
-| `ttdeath`  | Months to death                       |
+| Variable   | Description                          |
+|:-----------|:-------------------------------------|
+| `trt`      | Treatment group                      |
+| `age`      | Age in years                         |
+| `marker`   | Marker level (ng/mL)                 |
+| `stage`    | Tumor stages `T1` through `T4`       |
+| `grade`    | Tumor grade `I`, `II`, `III`         |
+| `response` | Tumor response (`0` = no, `1` = yes) |
+| `death`    | Death (`0` = no, `1` = yes)          |
+| `ttdeath`  | Months to death                      |
 
-
-1. Show the number of observations 
-    - of the whole dataset
-    - per treatment group
-    - per treatment group and `stage`
-2. For the `age` and `marker`,
-    - Calculate common statistics (range, mean, ...)
-    - Also visualize the variables appropriately and note anything unusual
-3. Give counts and proportions of `response` and `death`
+1.  Show the number of observations
+    -   of the whole dataset
+    -   per treatment group
+    -   per treatment group and `stage`
+2.  For the `age` and `marker`,
+    -   Calculate common statistics (range, mean, ...)
+    -   Also visualize the variables appropriately and note anything unusual
+3.  Give counts and proportions of `response` and `death`
 
 ```{r first-look}
 
@@ -67,18 +65,15 @@ This can be for cosmetic reasons, like renaming variables or recoding variables 
 
 ### Plausibility
 
-1. Both `age` and `marker` contain missing values as you should have seen earlier. Substitute them with the median value of each variable.
-This is a simple imputation technique that's not good enough for a clinical trial, but good enough for our purposes!
-
+1.  Both `age` and `marker` contain missing values as you should have seen earlier. Substitute them with the median value of each variable. This is a simple imputation technique that's not good enough for a clinical trial, but good enough for our purposes!
 
 ```{r plausibility-1}
 
 ```
 
-
-2. A histogram of `marker` looks odd. There appears to be a strong outlier, maybe more?
-    a. For positive outliers we can "clip" them to e.g. the 95% quantile of the data.
-    b. Are there other implausible values? What could be done about them?
+2.  A histogram of `marker` looks odd. There appears to be a strong outlier, maybe more?
+    a.  For positive outliers we can "clip" them to e.g. the 95% quantile of the data.
+    b.  Are there other implausible values? What could be done about them?
 
 ```{r plausibility-2}
 
@@ -88,22 +83,19 @@ This is a simple imputation technique that's not good enough for a clinical tria
 
 Once the data is clean in the "looks plausible" sense, we can do some cosmetic changes.
 
-1. Recode `response` and `death` to new variables such that 1 -> "Yes" and 0 -> "No"
-    - The new variable names should be `response_text` and `death_text` while keeping the original ones!
-    - Both variables should be `factors` sorted with `Yes` in the first position
-    - You can use the regular `ifelse()` or `dplyr::if_else()` for this
-2. Create a categorized age variable in 10 year groups, e.g. <=10, 11–20, etc.
-    - Likely `case_when()` from `dplyr` is easiest to do this, albeit a bit verbose
-    - Alternative: Try `cut()`, which might be harder to use but more compact
-3. Rename the `ttdeath` variable to `time` and the `death` variable to `status`
-    - The verb for this is `rename()`!
-
-
+1.  Recode `response` and `death` to new variables such that 1 -\> "Yes" and 0 -\> "No"
+    -   The new variable names should be `response_text` and `death_text` while keeping the original ones!
+    -   Both variables should be `factors` sorted with `Yes` in the first position
+    -   You can use the regular `ifelse()` or `dplyr::if_else()` for this
+2.  Create a categorized age variable in 10 year groups, e.g. \<=10, 11–20, etc.
+    -   Likely `case_when()` from `dplyr` is easiest to do this, albeit a bit verbose
+    -   Alternative: Try `cut()`, which might be harder to use but more compact
+3.  Rename the `ttdeath` variable to `time` and the `death` variable to `status`
+    -   The verb for this is `rename()`!
 
 ```{r cosmetics}
 
 ```
-
 
 ### Don't Forget to Save
 
@@ -117,14 +109,15 @@ Write the dataset as a file to the `data` directory, once as an "RDS" file and o
 
 ## Getting Ready for Publishing
 
-Now that our data is a bit cleaner, we want to do some actual analysis.  
-We assume that the research question here is quite clear: There are two chemotherapy treatment groups in `trt`, and we're interested in any differences between the two groups. 
+Now that our data is a bit cleaner, we want to do some actual analysis.\
+We assume that the research question here is quite clear: There are two chemotherapy treatment groups in `trt`, and we're interested in any differences between the two groups.
 
 We will approach this both descriptively and also with a bit of statistics.
 
 ### Descriptives
 
-For any kind of research, there's always tables. Tons and tons of tables.  
+For any kind of research, there's always tables.
+Tons and tons of tables.\
 Makign tables in R used to be a lot less comfortable than it is now, thanks to great packages like `table1` and `gtsummary`.
 We'll use `gtsummary` for a few common descriptive tables:
 
@@ -138,7 +131,7 @@ chemo |>
     tbl_summary()
 ```
 
-You'll note that the variable names are not very nice, and we could manually set these labels in the `tbl_summary` function, but a neat trick is to use the `labelled` package actually, which make it easy to set variable labels via a form of attribute. 
+You'll note that the variable names are not very nice, and we could manually set these labels in the `tbl_summary` function, but a neat trick is to use the `labelled` package actually, which make it easy to set variable labels via a form of attribute.
 
 Unfortunately not everything in R knows to use these labels, but `gtsummary` does and for now that's good enough:
 
@@ -158,7 +151,7 @@ chemo |>
     tbl_summary()
 ```
 
-Much better.  
+Much better.
 
 We can also create groupings, for example by grade:
 
@@ -170,15 +163,14 @@ chemo |>
 
 There's a lot more we could do with this and you can learn all about it on the package's great documentation website at https://www.danieldsjoberg.com/gtsummary/.
 
-::: {.callout-note}
+::: callout-note
 The dataset `chemo` we used here is actually a slightly modified version of a dataset that comes with the `gtsumamry` package called `trial`!
 The good thing is that the documentation examples for `gtsummary` should be enough to get you started with `chemo`!
 :::
 
-
 ### Statistical Analysis
 
-Describing the data is fine and all but what about statistics?  
+Describing the data is fine and all but what about statistics?\
 Well, statistical analysis is not the focus of this course, but we can of course leverage some of the powerful tools at our disposal.
 
 Let's start with `ggstatsplot` again:
@@ -187,7 +179,7 @@ Let's start with `ggstatsplot` again:
 library(ggstatsplot)
 ```
 
-We most likely want to look at the tumor response between the treatment groups and see whether there is any significant difference.  
+We most likely want to look at the tumor response between the treatment groups and see whether there is any significant difference.\
 The absolute numbers don't tell us too much yet:
 
 ```{r}
@@ -207,7 +199,7 @@ ggbarstats(
 )
 ```
 
-Apart from displaying percentages on a stacked barchart, it also gives us information on the result of the statistical test used to see whether the proportions are equal between treatment groups or not --- and it looks like the result is not significant with p > 0.05
+Apart from displaying percentages on a stacked barchart, it also gives us information on the result of the statistical test used to see whether the proportions are equal between treatment groups or not --- and it looks like the result is not significant with p \> 0.05
 
 ```{r}
 ggbetweenstats(
@@ -218,13 +210,13 @@ ggbetweenstats(
 )
 ```
 
-::: {.callout-warning}
-Note that packages like `ggstatsplot` make it quite easy to do all kinds of statistical tests all the time, but just like medical diagnostic tests, it isn't necessarily a good idea to test _everything_.
+::: callout-warning
+Note that packages like `ggstatsplot` make it quite easy to do all kinds of statistical tests all the time, but just like medical diagnostic tests, it isn't necessarily a good idea to test *everything*.
 :::
 
 ### Advanced: Survival Curves
 
-Another common type of plot to create is the Kaplan-Meier curve for each treatment group using the `time` survival time in months and the `status` survival indicator (0 for censoring, 1 for death).  
+Another common type of plot to create is the Kaplan-Meier curve for each treatment group using the `time` survival time in months and the `status` survival indicator (0 for censoring, 1 for death).\
 The [`ggsurvfit`](https://www.danieldsjoberg.com/ggsurvfit/) package makes this very convenient:
 
 ```{r ggsurv, eval=FALSE}
