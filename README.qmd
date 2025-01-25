@@ -51,13 +51,22 @@ Installing the required packages is part of the course, but if you want to be sa
 
 ### Locally with R / RStudio installed
 
--   On this site (<https://github.com/bips-hb/course_introduction_to_r>), click the green "Code" button and choose "Download ZIP"
+<details>
+<summary>Click to show instructions</summary>
+
+
+-   On [the GitHub page](https://github.com/bips-hb/course_introduction_to_r), click the green "Code" button and choose "Download ZIP"
 -   Extract the downloaded ZIP file
 -   Double-click `course_introduction_to_r.Rproj`
 
 ![](assets/img/github-1.png)
 
+</details>
+
 ### Using posit.cloud
+
+<details>
+<summary>Click to show instructions</summary>
 
 Log in on <https://posit.cloud> using whichever method you prefer (it's free!)
 
@@ -73,6 +82,8 @@ For the URL, enter `https://github.com/bips-hb/course_introduction_to_r.git`
 
 ![](assets/img/positcloud-3.png)
 
+</details>
+
 ## Additional materials
 
 ### Introductory courses
@@ -87,4 +98,4 @@ Materials here are in part inspired by the great work other people have already 
 -   [R for Data Science](https://r4ds.hadley.nz/) by Hadley Wickham et al.
 -   [Advanced R](https://adv-r.hadley.nz/) by Hadley Wickham
 -   [What They Forgot to Teach You About R](https://rstats.wtf/) by Jennifer Bryan et al.
--   [The R Graphics Cookbook](https://r-graphics.org/)
+-   [The R Graphics Cookbook](https://r-graphics.org/) by Winston Chang.
