@@ -1,0 +1,46 @@
+project:
+  type: website
+  output-dir: _site
+  preview:
+    port: 4500
+    browser: false
+  render:
+    - README.qmd
+    - 02-fundamentals.qmd
+    - 03-tabular-data.qmd
+    - 04-tidyverse.qmd
+    - 05-ggplot2.qmd
+    - 06-whole-game.qmd
+
+execute:
+  freeze: true  # never re-execute computational content during project render
+
+website:
+  title: "Introduction to R"
+  navbar:
+    search: true
+    left:
+      - icon: home
+        href: README.qmd
+        text: "Home"
+        aria-label: Home
+      - text: Sections
+        menu:
+        - href: 02-fundamentals.qmd
+          text: "Fundamentals"
+        - href: 03-tabular-data.qmd
+          text: "Tabular Data"
+        - href: 04-tidyverse.qmd
+          text: "The Tidyverse"
+        - href: 05-ggplot2.qmd
+          text: "ggplot2"
+        - href: 06-whole-game.qmd
+          text: "The Whole Game"
+    right:
+      - icon: github
+        href: https://github.com/bips-hb/course_introduction_to_r
+        aria-label: GitHub
+
+format:
+  html:
+    toc: true
