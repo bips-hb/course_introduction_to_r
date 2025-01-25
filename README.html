@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.37">
+<meta name="generator" content="quarto-1.6.40">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -35,10 +35,10 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-29e2c20b02301cfff04dc8050bf30c7e.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-4a341abd36abb8eddf3c78ca280f7ced.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-e5b8070214c8195f5f60c8866162d912.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -114,7 +114,7 @@ ul.task-list li input[type="checkbox"] {
  <span class="dropdown-text">ggplot2</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./06-whole-game.wmd">
+    <a class="dropdown-item" href="./06-whole-game.html">
  <span class="dropdown-text">The Whole Game</span></a>
   </li>  
     </ul>
@@ -236,15 +236,24 @@ The sections are:</p>
 <p>Installing the required packages is part of the course, but if you want to be safe and install them in advance (e.g.&nbsp;due to technical issues like an unstable internet connection) follow these instructions depending on your preferences / needs and afterwards refer to <a href="./scripts/install-packages.R"><code>scripts/install-packages.R</code></a> and run the commands to install the R packages.</p>
 <section id="locally-with-r-rstudio-installed" class="level3">
 <h3 class="anchored" data-anchor-id="locally-with-r-rstudio-installed">Locally with R / RStudio installed</h3>
+<details>
+<summary>
+Click to show instructions
+</summary>
 <ul>
-<li>On this site (<a href="https://github.com/bips-hb/course_introduction_to_r" class="uri">https://github.com/bips-hb/course_introduction_to_r</a>), click the green “Code” button and choose “Download ZIP”</li>
+<li>On <a href="https://github.com/bips-hb/course_introduction_to_r">the GitHub page</a>, click the green “Code” button and choose “Download ZIP”</li>
 <li>Extract the downloaded ZIP file</li>
 <li>Double-click <code>course_introduction_to_r.Rproj</code></li>
 </ul>
 <p><img src="assets/img/github-1.png" class="img-fluid"></p>
+</details>
 </section>
 <section id="using-posit.cloud" class="level3">
 <h3 class="anchored" data-anchor-id="using-posit.cloud">Using posit.cloud</h3>
+<details>
+<summary>
+Click to show instructions
+</summary>
 <p>Log in on <a href="https://posit.cloud" class="uri">https://posit.cloud</a> using whichever method you prefer (it’s free!)</p>
 <p>Choose “New Project”</p>
 <p><img src="assets/img/positcloud-1.png" class="img-fluid"></p>
@@ -252,6 +261,7 @@ The sections are:</p>
 <p><img src="assets/img/positcloud-2.png" class="img-fluid"></p>
 <p>For the URL, enter <code>https://github.com/bips-hb/course_introduction_to_r.git</code></p>
 <p><img src="assets/img/positcloud-3.png" class="img-fluid"></p>
+</details>
 </section>
 </section>
 <section id="additional-materials" class="level2">
@@ -270,7 +280,7 @@ The sections are:</p>
 <li><a href="https://r4ds.hadley.nz/">R for Data Science</a> by Hadley Wickham et al.</li>
 <li><a href="https://adv-r.hadley.nz/">Advanced R</a> by Hadley Wickham</li>
 <li><a href="https://rstats.wtf/">What They Forgot to Teach You About R</a> by Jennifer Bryan et al.</li>
-<li><a href="https://r-graphics.org/">The R Graphics Cookbook</a></li>
+<li><a href="https://r-graphics.org/">The R Graphics Cookbook</a> by Winston Chang.</li>
 </ul>
 
 
@@ -368,7 +378,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp('/' + window.location.host + '/');
+      var filterRegex = new RegExp("https:\/\/bips-hb\.github\.io\/course_introduction_to_r\/");
     var isInternal = (href) => {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }

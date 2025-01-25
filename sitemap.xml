@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://bips-hb.github.io/course_introduction_to_r/06-whole-game.html</loc>
+    <lastmod>2025-01-25T11:34:36.467Z</lastmod>
+  </url>
+  <url>
+    <loc>https://bips-hb.github.io/course_introduction_to_r/04-tidyverse.html</loc>
+    <lastmod>2025-01-25T11:34:36.467Z</lastmod>
+  </url>
+  <url>
+    <loc>https://bips-hb.github.io/course_introduction_to_r/02-fundamentals.html</loc>
+    <lastmod>2025-01-25T11:34:36.466Z</lastmod>
+  </url>
+  <url>
+    <loc>https://bips-hb.github.io/course_introduction_to_r/README.html</loc>
+    <lastmod>2025-01-25T11:34:36.467Z</lastmod>
+  </url>
+  <url>
+    <loc>https://bips-hb.github.io/course_introduction_to_r/03-tabular-data.html</loc>
+    <lastmod>2025-01-25T11:34:36.467Z</lastmod>
+  </url>
+  <url>
+    <loc>https://bips-hb.github.io/course_introduction_to_r/05-ggplot2.html</loc>
+    <lastmod>2025-01-25T11:34:36.467Z</lastmod>
+  </url>
+</urlset>

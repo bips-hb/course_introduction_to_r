@@ -1,0 +1,1 @@
+Sitemap: https://bips-hb.github.io/course_introduction_to_r/sitemap.xml
