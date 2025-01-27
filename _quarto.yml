@@ -13,7 +13,7 @@ project:
     - 06-whole-game.qmd
 
 execute:
-  freeze: true  # never re-execute computational content during project render
+  freeze: auto  # re-render code only when source changes
 
 website:
   title: "Introduction to R"
