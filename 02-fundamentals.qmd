@@ -8,12 +8,9 @@ editor: visual
 
 ## Hello There!
 
-This is a Quarto document.
-It contains regular text, code, and output when viewed in RStudio.
-It can also be converted into an HTML (or PDF) document, where code and output are shown together as well.
+This is a Quarto document. It contains regular text, code, and output when viewed in RStudio. It can also be converted into an HTML (or PDF) document, where code and output are shown together as well.
 
-This text is formatted using *Markdown*, a lightweight syntax that uses asterisks (`*`), underscores (`_`), hyphens (`-`), and parentheses / brackets (`()` and `[]`) to format text.
-We can also embed images:
+This text is formatted using *Markdown*, a lightweight syntax that uses asterisks (`*`), underscores (`_`), hyphens (`-`), and parentheses / brackets (`()` and `[]`) to format text. We can also embed images:
 
 ![rstudio-overview](assets/img/rstudio-example.png)
 
@@ -28,19 +25,15 @@ We can also write R code in a code block and execute it using either Ctrl + R li
 (2 + 5) / 4
 ```
 
-Throughout the workshop, we will use this format to interweave text and explanations with code examples.
-You can modify the code in the blocks and rerun them to see the results, and later we will provide partial code examples where your task will be to complete them to solve a given task.
+Throughout the workshop, we will use this format to interweave text and explanations with code examples. You can modify the code in the blocks and rerun them to see the results, and later we will provide partial code examples where your task will be to complete them to solve a given task.
 
 Before we try to do any data analysis, we first need to familiarize ourselves with R to know our way around!
 
-In the example script `01-hello.R` we have already seen that R can be used like a big calculator, and that's already pretty useful.
-For now, we'll build on that a little.
+In the example script `01-hello.R` we have already seen that R can be used like a big calculator, and that's already pretty useful. For now, we'll build on that a little.
 
 ## Variables and Vectors
 
-We have seen how to assign values to a variable, such as `age <- 30`.
-This allows us to re-use data and give it a meaningful(!) name in our work.
-It becomes more useful when we store not just individual number (*scalars*), but *vectors* of data.
+We have seen how to assign values to a variable, such as `age <- 30`. This allows us to re-use data and give it a meaningful(!) name in our work. It becomes more useful when we store not just individual number (*scalars*), but *vectors* of data.
 
 For example, say we have a small group of patients want to store their basic data, starting with their age:
 
@@ -50,8 +43,7 @@ age <- c(30, 33, 31, 29, 40)
 age
 ```
 
-Now `age` is a *vector*, and in R this is the most common type of data structure we deal with.
-Note that in R, even single numbers like `5` are treated like vectors (of length 1)!
+Now `age` is a *vector*, and in R this is the most common type of data structure we deal with. Note that in R, even single numbers like `5` are treated like vectors (of length 1)!
 
 We can use vectors almost exactly like single numbers for basic math:
 
@@ -74,9 +66,11 @@ We can also conveniently create sequences of numbers using the colon notation `:
 -5:5
 ```
 
-If we add vectors of the same length, R will add each element separately:
+If we add vectors of the same length, R will try to add each element separately:
 
 ```{r}
+age
+
 # Same length: ok
 age + 1:5
 
@@ -127,7 +121,7 @@ z <- c(1.2, 3.4, 3.6, 5.7)
 
 ### Your turn: Working with variables
 
-Let's assume add more patient data:
+Let's assume more patient data:
 
 ```{r patient-data}
 height_cm <- c(184, 174, 171, 179, 180)
@@ -142,7 +136,6 @@ height_cm <- c(184, 174, 171, 179, 180)
 weight_kg <- c(75, 64, 70, 85, 78)
 
 weight_kg/height_cm^2
-
 ```
 
 ## Functions
@@ -174,15 +167,13 @@ sum(height_cm)
 summary(height_cm)
 ```
 
-Functions can take *arguments* which specify further options, always separated by a comma `,`.
-Example: To calculate the quartiles of a vector without `summary()`, we take the function `quantile()` to calculate the 25%, 50%, and 75% quartiles:
+Functions can take *arguments* which specify further options, always separated by a comma `,`. Example: To calculate the quartiles of a vector without `summary()`, we take the function `quantile()` to calculate the 25%, 50%, and 75% quartiles:
 
 ```{r}
 quantile(height_cm, probs = c(0.25, 0.5, 0.75))
 ```
 
-Note that function arguments are always declared with the `=` character!
-We will learn more about function arguments later.
+Note that function arguments are always declared with the `=` character! We will learn more about function arguments later.
 
 ### Your turn
 
@@ -191,7 +182,7 @@ We will learn more about function arguments later.
 Hint: The mean is defined as the sum of the values divided by the number of entries.
 
 ```{r calculate-mean-manually}
-
+sum(height_cm)/length(height_cm)
 ```
 
 ## Vector Types
@@ -219,10 +210,7 @@ c(1, 2, "3")
 c(1, TRUE, FALSE, "a")
 ```
 
-**"Numeric"** is technically a class further separated into whole numbers (*integers*) and decimal numbers.
-The latter are referred to as "floating point numbers" and the type is called "*double*" for boring history-of-computing reasons.
-Usually a numeric vector in R is a double, unless explicitly denoted an integer.
-You can check the difference with the function `typeof()`, e.g. `typeof(3)`
+**"Numeric"** is technically a class further separated into whole numbers (*integers*) and decimal numbers. The latter are referred to as "floating point numbers" and the type is called "*double*" for boring history-of-computing reasons. Usually a numeric vector in R is a double, unless explicitly denoted an integer. You can check the difference with the function `typeof()`, e.g. `typeof(3)`
 
 The important bit is that they have upper and lower limits because computers can't store numbers with arbitrary precision:
 
@@ -238,8 +226,7 @@ The important bit is that they have upper and lower limits because computers can
 
 The `e` here is for "exponent" and `1e5` is identical to `1 * 10^5`, and `2e-3` is `2 * 10^-3` or `0.002`.
 
-**Integers** are sometimes used explicitly, and we write them like so: `1L` (the "L" has weird historic reasons).
-It can be useful to use integers explicitly, or to be aware of your data being in integer format rather than double.
+**Integers** are sometimes used explicitly, and we write them like so: `1L` (the "L" has weird historic reasons). It can be useful to use integers explicitly, or to be aware of your data being in integer format rather than double.
 
 ```{r typeof-integer-double}
 typeof(3)
@@ -282,11 +269,9 @@ as.numeric(c("apples", "bananas"))
 
 ## Missing data
 
-At some point in your analysis, you will always encounter missing data.
-Whether it's measurement error or a partial survey response, there's no way to avoid it.
+At some point in your analysis, you will always encounter missing data. Whether it's measurement error or a partial survey response, there's no way to avoid it.
 
-In R, missing values are denoted `NA`, for "Not Available".
-It's important to note that there is absolute *no* information, so we can not do **anything** with missing values:
+In R, missing values are denoted `NA`, for "Not Available". It's important to note that there is absolute *no* information, so we can not do **anything** with missing values:
 
 ```{r}
 # vector with missing value
@@ -304,8 +289,7 @@ What do we do with that?
 
 We really want the mean of the age here, but we don't want to exclude an entire patient from our dataset.
 
-We can check R's built-in **help system** by adding a `?` in front of any function name (without parentheses).
-Try it out using the `mean` function!:
+We can check R's built-in **help system** by adding a `?` in front of any function name (without parentheses). Try it out using the `mean` function!:
 
 ```{r, eval=FALSE}
 ?mean
@@ -337,8 +321,7 @@ Bonus:
 ## More Vector-Work
 
 Now we can already do many things with vectors, but there is one important thing missing:\
-We can't access individual elements or ranges yet.
-In R, we do that using square brackets with an index number: `x[1]` gives us the first element of `x`.
+We can't access individual elements or ranges yet. In R, we do that using square brackets with an index number: `x[1]` gives us the first element of `x`.
 
 Some examples:
 
@@ -358,8 +341,7 @@ We will practice this later, but before we do...
 
 We spoke of logical values before, and it's time to get to know them a little better!
 
-One of the most common applications is in **comparisons**, i.e., is `x` greater, equal, or less than `y`?
-In R, we can do these comparisons using *logical operators*:
+One of the most common applications is in **comparisons**, i.e., is `x` greater, equal, or less than `y`? In R, we can do these comparisons using *logical operators*:
 
 -   `x ==` **Equals** (two `=` signs without space in between)
 -   `x !=` **Not Equal** (Exclamation point and `=` without space in between)
@@ -411,8 +393,7 @@ This is so useful that R has functions for that, see `?which.min`
 
 ### Vector Indexing
 
-Now we have all the tools we need to slice and dice our vectors!
-Because with the `x[<index>]` notation for vector subsetting (indexing), we can also use *logical* values, which is very powerful!
+Now we have all the tools we need to slice and dice our vectors! Because with the `x[<index>]` notation for vector subsetting (indexing), we can also use *logical* values, which is very powerful!
 
 if we use a logical vector for indexing, R will give us all the elements of the vector for which the index was`TRUE` and omit those that were `FALSE`:
 
@@ -468,8 +449,7 @@ age <- c(30, 32, 38, 27, NA, 27, 29, NA, 30, 31)
 
 ## Appendix: Useful Functions for Vectors
 
-Like with every language, there is always a certain set of vocabulary you'll just have to learn and remember.
-The next best thing is of course knowing where to look them up.
+Like with every language, there is always a certain set of vocabulary you'll just have to learn and remember. The next best thing is of course knowing where to look them up.
 
 In that regard, here is a list of common function which might come in handy at some point!\
 Remember to use the help with `?function` to learn more (or use Google, or ChatGPT, or whatever works!)
@@ -513,8 +493,7 @@ Remember to use the help with `?function` to learn more (or use Google, or ChatG
 
 ### Random Numbers / Probability Distributions
 
-R is first and foremost a statistical language, and as such it has great facilities for working with random number sand probability distributions.
-These functions come in 4 versions with different first letters for
+R is first and foremost a statistical language, and as such it has great facilities for working with random number sand probability distributions. These functions come in 4 versions with different first letters for
 
 -   `r` to draw **r**andom numbers
 -   `d` for values from a probability **d**istribution

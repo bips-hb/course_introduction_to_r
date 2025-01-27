@@ -3,19 +3,17 @@ title: "3: Tabular Data"
 format: 
   html:
     toc: true
-editor: visual
+editor: source
 ---
 
-So far we have used individual vectors as data, but of course it is not particularly convenient to work with real data like that.
-Whether your data originally is stored in an Excel file or some sort of database system, it is usually stored in a *tabular* format, ideally with two key properties:
+So far we have used individual vectors as data, but of course it is not particularly convenient to work with real data like that. Whether your data originally is stored in an Excel file or some sort of database system, it is usually stored in a *tabular* format, ideally with two key properties:
 
 1.  Each **column** of your data is a **variable** (like age, weight, ...)
 2.  Each **row** of your data is an **observation** (like a single patient, a hospital, a country, ...)
 
 In the real world, data tends to come in all shapes and sizes, but for the purposes of analysis this is the shape to strive for.
 
-Just like we made up some patient data to store as vectors, we can use the same approach to create tabular data, using the `data.frame()` function.
-Each argument of this function takes a *vector* just like we used before, so in a sense the `data.frame` is just a way to organize vectors that all must have the same length!
+Just like we made up some patient data to store as vectors, we can use the same approach to create tabular data, using the `data.frame()` function. Each argument of this function takes a *vector* just like we used before, so in a sense the `data.frame` is just a way to organize vectors that all must have the same length!
 
 ```{r df-ex1}
 example_df <- data.frame(
@@ -40,8 +38,6 @@ example_df[["age"]]
 
 example_df$id
 example_df$weight_kg
-
-
 ```
 
 Since this gives us a vector, we can do the usual vector things:
@@ -79,8 +75,7 @@ example_df[5, 1]
 example_df[5, "id"]
 ```
 
-When we use single brackets, the result is still a `data.frame` unless in the last case where the result is a scalar.
-This can become somewhat tricky, but if you *insist* on the result being a `data.frame` you can add `drop = FALSE`:
+When we use single brackets, the result is still a `data.frame` unless in the last case where the result is a scalar. This can become somewhat tricky, but if you *insist* on the result being a `data.frame` you can add `drop = FALSE`:
 
 ```{r df-drop}
 example_df[5, 1]
@@ -88,8 +83,7 @@ example_df[5, 1]
 example_df[5, 1, drop = FALSE]
 ```
 
-This is a "good to know and easy to forget" bit of information.
-Soon we will introduce mechanisms to make working with tabular data a bit more intuitive, but since you will most likely encounter this type of code in the wild, we'll practice it a little soon.
+This is a "good to know and easy to forget" bit of information. Soon we will introduce mechanisms to make working with tabular data a bit more intuitive, but since you will most likely encounter this type of code in the wild, we'll practice it a little soon.
 
 ```{r}
 example_df[example_df$age >= 30, ]
@@ -163,8 +157,7 @@ identical(test_df, read_test)
 
 ### CSV
 
-Comma separated values (CSV) are maybe the most common way to share data that's not large enough to require database or strong compression.
-If you want to share data in a way that others can import it into Excel without a big headache, this is probably the way to go!\
+Comma separated values (CSV) are maybe the most common way to share data that's not large enough to require database or strong compression. If you want to share data in a way that others can import it into Excel without a big headache, this is probably the way to go!\
 Also if you want to make sure that your great-great-great-grandchildren are still able to read your data without any special software.
 
 It's the lowest common denominator in many ways, and it can be very annoying to deal with.
@@ -180,8 +173,7 @@ write.csv(example_df, file = "data/example_csv123.csv",
 example_csv <- read.csv(file = "data/example_csv123.csv")
 ```
 
-Note that `?read.csv` and `?write.csv` show a few option that will be useful at some point, like `sep`.
-By default, we write and read comma-delimited files, but we could also do `sep = ";"` to use `;` as a separating character!\
+Note that `?read.csv` and `?write.csv` show a few option that will be useful at some point, like `sep`. By default, we write and read comma-delimited files, but we could also do `sep = ";"` to use `;` as a separating character!\
 When you try to read data with Excel for example, then using `;` might make things easier.
 
 When it comes to reading external data, tons of things can go wrong and for now, we just assume that it went okay.
@@ -205,9 +197,7 @@ That way, you should always your original data, your final data, and most import
 
 ## Excursion: Packages
 
-Before we move on, it's time to take a look at this open source ecosystem we mentioned in the beginning.
-In R, this mostly means we can install *packages*.
-A package is a collection of functions and sometimes other objects which we can use for additional capabilities, and lets us benefit from other people's work such that we don't have to reinvent the wheel every time we do an analysis.
+Before we move on, it's time to take a look at this open source ecosystem we mentioned in the beginning. In R, this mostly means we can install *packages*. A package is a collection of functions and sometimes other objects which we can use for additional capabilities, and lets us benefit from other people's work such that we don't have to reinvent the wheel every time we do an analysis.
 
 We can install packages using either RStudio's "Packages" pane to the right, or we can use R functions directly.
 
@@ -237,8 +227,7 @@ As an example for what we would use `readxl` for, let's read an example dataset 
 example_df <- readxl::read_excel(path = "data-raw/example.xlsx")
 ```
 
-Here, the function `read_excel()` is provided by the package `readxl` and only available when that package is installed and loaded!
-An error message like
+Here, the function `read_excel()` is provided by the package `readxl` and only available when that package is installed and loaded! An error message like
 
 ```         
 could not find function "read_excel"
@@ -254,16 +243,15 @@ We won't do that here yet, but in the wild you might find people referring to a 
 
 ### Your Turn
 
-We will now move on to using more packages, which of course first need installation.
-Unless you have already done so, install the following packages:
+We will now move on to using more packages, which of course first need installation. Unless you have already done so, install the following packages:
 
 -   "tidyverse"
 -   "gapminder"
 -   "gtsummary"
 -   "table1"
 -   "ggstatsplot"
-
-Optional: - "ggthemes" - "readr"
+-   "ggthemes" 
+-   "readr"
 
 **Alternatively** you can install the package `pak` first, and then install the packages above using `pkg_install()`:
 
@@ -279,23 +267,20 @@ In any case, this might take a moment!
 
 ## Knowing Your Data
 
-As mentioned, accessing tabular data is a bit more complex than it is for vectors, and in the next section we will learn about convenient tools for this case.
-However, there are some common built-in tools that R provides for this which you should be at least aware of.
+As mentioned, accessing tabular data is a bit more complex than it is for vectors, and in the next section we will learn about convenient tools for this case. However, there are some common built-in tools that R provides for this which you should be at least aware of.
 
-We'll start with a new dataset from one of the packages you just installed: `gapminder` This dataset is based on the [Gapminder](https://www.gapminder.org/) data, and also part of (Hans Rosling's almost 20 year old TED talk\](https://www.ted.com/talks/hans_rosling_the_best_stats_you_ve_ever_seen).
+We'll start with a new dataset from one of the packages you just installed: `gapminder` This dataset is based on the [Gapminder](https://www.gapminder.org/) data, and also part of [Hans Rosling's almost 20 year old TED talk](https://www.ted.com/talks/hans_rosling_the_best_stats_you_ve_ever_seen).
 
 First we *load the data* which in this case means to just load the `gapminder` package to access the dataset with the same name (confusingly so)
 
 ```{r}
 library(gapminder)
-
 gapminder
-
 ```
 
 We can also view the dataset in RStudio with `View()`, and look at its documentation with `?`:
 
-```r
+``` r
 View(gapminder)
 ?gapminder
 ```
@@ -323,8 +308,7 @@ str(gapminder)
 
 Don't forget we can also refer to the documentation using `?gapminder` to learn about what each variable means!
 
-There is also something new there: A type of data we have not encountered before: The `factor`!
-`factors` are for *categorical data*, particularly the kind where we know beforehand how many different categories there are and what they are called.
+There is also something new there: A type of data we have not encountered before: The `factor`! `factors` are for *categorical data*, particularly the kind where we know beforehand how many different categories there are and what they are called.
 
 A quick example:
 
@@ -358,8 +342,7 @@ fruit_char <- c("orange", "apple", "apple", "orange", "apple", "orange")
 table(fruit_char)
 ```
 
-`factors` are like `characters` but with *additional information* stored in them, and dealing with them can be a bit counter-intuitive.
-For now, we're happy with knowing that they exists and that they are useful for categorical data!
+`factors` are like `characters` but with *additional information* stored in them, and dealing with them can be a bit counter-intuitive. For now, we're happy with knowing that they exists and that they are useful for categorical data!
 
 In `gapminder`, there are two `factor` variables as we have seen using `str()`: `country` and `continent`.
 

@@ -12,8 +12,7 @@ By now we have enough useful tools at our disposal practice an exploratory analy
 2.  Explore it using tidyverse verbs
 3.  Visualize potentially interesting variable using `ggplot2`
 
-We will first go through these steps and then build on them by introducing additional tools for statistical reporting, but throughout this last piece of the course there will be fewer code examples and more room for you to experiment!
-This will take some time, so don't worry if you don't get everything down right the first time or if we don't finish this chapter before the end of the course.
+We will first go through these steps and then build on them by introducing additional tools for statistical reporting, but throughout this last piece of the course there will be fewer code examples and more room for you to experiment! This will take some time, so don't worry if you don't get everything down right the first time or if we don't finish this chapter before the end of the course.
 
 ```{r}
 library(tidyverse)
@@ -23,9 +22,7 @@ library(tidyverse)
 
 So far we have played with example data and the `gapminder` data, but now it's time to start with something fresh and unfamiliar.
 
-The dataset we'll explore is called "chemo", and you can find it in the `data-raw` directory in these workshop materials.
-It is stored as a CSV file called `"chemo.csv"`, and to import it you *could* use the built-in function `read.csv()`, but to be more tidyverse-focused we'll use the `readr` package and the `read_csv()` function, which is a tad more flexible and more user-friendly.
-We'll give it the name `chemo` from here on out!
+The dataset we'll explore is called "chemo", and you can find it in the `data-raw` directory in these workshop materials. It is stored as a CSV file called `"chemo.csv"`, and to import it you *could* use the built-in function `read.csv()`, but to be more tidyverse-focused we'll use the `readr` package and the `read_csv()` function, which is a tad more flexible and more user-friendly. We'll give it the name `chemo` from here on out!
 
 ```{r}
 chemo <- readr::read_csv("data-raw/chemo.csv")
@@ -60,8 +57,7 @@ Here is an basic data dictionary for the `chemo` dataset:
 
 ## Data Cleaning
 
-Data cleaning encompasses anything we might want to or need to change about the dataset before we do any actual analysis.
-This can be for cosmetic reasons, like renaming variables or recoding variables from a numeric "0 or 1" to a readable "no or yes".
+Data cleaning encompasses anything we might want to or need to change about the dataset before we do any actual analysis. This can be for cosmetic reasons, like renaming variables or recoding variables from a numeric "0 or 1" to a readable "no or yes".
 
 ### Plausibility
 
@@ -116,10 +112,8 @@ We will approach this both descriptively and also with a bit of statistics.
 
 ### Descriptives
 
-For any kind of research, there's always tables.
-Tons and tons of tables.\
-Makign tables in R used to be a lot less comfortable than it is now, thanks to great packages like `table1` and `gtsummary`.
-We'll use `gtsummary` for a few common descriptive tables:
+For any kind of research, there's always tables. Tons and tons of tables.\
+Makign tables in R used to be a lot less comfortable than it is now, thanks to great packages like `table1` and `gtsummary`. We'll use `gtsummary` for a few common descriptive tables:
 
 ```{r}
 library(gtsummary)
@@ -161,11 +155,10 @@ chemo |>
     tbl_summary(by = grade)
 ```
 
-There's a lot more we could do with this and you can learn all about it on the package's great documentation website at https://www.danieldsjoberg.com/gtsummary/.
+There's a lot more we could do with this and you can learn all about it on the package's great documentation website at <https://www.danieldsjoberg.com/gtsummary/>.
 
 ::: callout-note
-The dataset `chemo` we used here is actually a slightly modified version of a dataset that comes with the `gtsumamry` package called `trial`!
-The good thing is that the documentation examples for `gtsummary` should be enough to get you started with `chemo`!
+The dataset `chemo` we used here is actually a slightly modified version of a dataset that comes with the `gtsumamry` package called `trial`! The good thing is that the documentation examples for `gtsummary` should be enough to get you started with `chemo`!
 :::
 
 ### Statistical Analysis
