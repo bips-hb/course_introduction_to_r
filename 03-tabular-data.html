@@ -514,8 +514,9 @@ Note
 <li>“gtsummary”</li>
 <li>“table1”</li>
 <li>“ggstatsplot”</li>
+<li>“ggthemes”</li>
+<li>“readr”</li>
 </ul>
-<p>Optional: - “ggthemes” - “readr”</p>
 <p><strong>Alternatively</strong> you can install the package <code>pak</code> first, and then install the packages above using <code>pkg_install()</code>:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pak)</span>
@@ -529,12 +530,11 @@ If you use a Linux distribution like Ubuntu, <code>pak</code> can save you a lot
 <section id="knowing-your-data" class="level2">
 <h2 class="anchored" data-anchor-id="knowing-your-data">Knowing Your Data</h2>
 <p>As mentioned, accessing tabular data is a bit more complex than it is for vectors, and in the next section we will learn about convenient tools for this case. However, there are some common built-in tools that R provides for this which you should be at least aware of.</p>
-<p>We’ll start with a new dataset from one of the packages you just installed: <code>gapminder</code> This dataset is based on the <a href="https://www.gapminder.org/">Gapminder</a> data, and also part of (Hans Rosling’s almost 20 year old TED talk](https://www.ted.com/talks/hans_rosling_the_best_stats_you_ve_ever_seen).</p>
+<p>We’ll start with a new dataset from one of the packages you just installed: <code>gapminder</code> This dataset is based on the <a href="https://www.gapminder.org/">Gapminder</a> data, and also part of <a href="https://www.ted.com/talks/hans_rosling_the_best_stats_you_ve_ever_seen">Hans Rosling’s almost 20 year old TED talk</a>.</p>
 <p>First we <em>load the data</em> which in this case means to just load the <code>gapminder</code> package to access the dataset with the same name (confusingly so)</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gapminder)</span>
-<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a>gapminder</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>gapminder</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1,704 × 6
    country     continent  year lifeExp      pop gdpPercap
